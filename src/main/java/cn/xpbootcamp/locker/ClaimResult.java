@@ -1,9 +1,17 @@
 package cn.xpbootcamp.locker;
 
-import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
-
 public class ClaimResult {
+    private LockerOperateStatusEnum status;
+
+    public ClaimResult(LockerOperateStatusEnum statusEnum) {
+        this.status = statusEnum;
+    }
+
     public LockerOperateStatusEnum getStatus() {
-        return SUCCESS;
+        return status;
+    }
+
+    public String getErrorMessage() {
+        return "Locker ticket is invalid";
     }
 }

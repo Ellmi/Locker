@@ -18,6 +18,7 @@ public class Locker {
     }
 
     public ClaimResult claim(LockerTicket lockerTicket) {
-        return new ClaimResult();
+        if (lockerTicket.isUsed()) return new ClaimResult(FAILED);
+        return new ClaimResult(SUCCESS);
     }
 }

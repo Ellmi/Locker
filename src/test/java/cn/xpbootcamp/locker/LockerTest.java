@@ -46,13 +46,28 @@ public class LockerTest {
     }
 
     @Test
-    public void should_claim_success_when_claim_bag_given_valid_ticket() {
+    public void should_claim_success_when_claim_bag_given_unused_ticket() {
 
         Locker locker = new Locker(lockerCapbility, lockerStoredAll);
 
         ClaimResult result = locker.claim(new LockerTicket());
 
         assertEquals(SUCCESS, result.getStatus());
+
+    }
+
+    @Test
+    public void should_claim_failed_when_claim_bag_given_used_ticket() {
+
+        Locker locker = new Locker(lockerCapbility, lockerStoredAll);
+        LockerTicket lockerTicket = new LockerTicket();
+        lockerTicket.setUsed(true);
+
+        ClaimResult result = locker.claim(lockerTicket);
+
+
+        assertEquals(FAILED, result.getStatus());
+        assertEquals("Locker ticket is invalid", result.getErrorMessage());
 
     }
 
