@@ -1,5 +1,7 @@
 package cn.xpbootcamp.locker;
 
+import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
+
 public class ClaimResult {
     private LockerOperateStatusEnum status;
 
@@ -12,6 +14,6 @@ public class ClaimResult {
     }
 
     public String getErrorMessage() {
-        return "Locker ticket is invalid";
+        return TICKET_INVALID_ERROR_MESSAGE;
     }
 }

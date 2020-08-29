@@ -3,6 +3,7 @@ package cn.xpbootcamp.locker;
 import org.junit.Test;
 
 import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
+import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
@@ -65,10 +66,8 @@ public class LockerTest {
 
         ClaimResult result = locker.claim(lockerTicket);
 
-
         assertEquals(FAILED, result.getStatus());
-        assertEquals("Locker ticket is invalid", result.getErrorMessage());
-
+        assertEquals(TICKET_INVALID_ERROR_MESSAGE, result.getErrorMessage());
     }
 
 }
