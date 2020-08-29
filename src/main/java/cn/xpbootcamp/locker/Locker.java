@@ -16,4 +16,8 @@ public class Locker {
         if (lockerStored < lockerCapbility) return new StoreResult(SUCCESS);
         return new StoreResult(FAILED);
     }
+
+    public ClaimResult claim(LockerTicket lockerTicket) {
+        return new ClaimResult();
+    }
 }

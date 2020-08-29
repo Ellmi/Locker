@@ -45,4 +45,15 @@ public class LockerTest {
 
     }
 
+    @Test
+    public void should_claim_success_when_claim_bag_given_valid_ticket() {
+
+        Locker locker = new Locker(lockerCapbility, lockerStoredAll);
+
+        ClaimResult result = locker.claim(new LockerTicket());
+
+        assertEquals(SUCCESS, result.getStatus());
+
+    }
+
 }
