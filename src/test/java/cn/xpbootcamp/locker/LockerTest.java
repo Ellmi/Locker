@@ -53,11 +53,8 @@ public class LockerTest {
     @Test
     public void should_claim_success_when_claim_bag_given_unused_ticket() {
 
-        Locker locker = new Locker(lockerCapbility, lockerStoredAll);
-        ArrayList<LockerTicket> tickets = new ArrayList<>();
         LockerTicket ticket = new LockerTicket(existedTicketId);
-        tickets.add(ticket);
-        locker.setTickets(tickets);
+        Locker locker = buildLocker(ticket);
 
         ClaimResult result = locker.claim(ticket);
 
@@ -68,9 +65,9 @@ public class LockerTest {
     @Test
     public void should_claim_failed_when_claim_bag_given_used_ticket() {
 
-        Locker locker = new Locker(lockerCapbility, lockerStoredAll);
         LockerTicket lockerTicket = new LockerTicket(existedTicketId);
         lockerTicket.setUsed(true);
+        Locker locker = buildLocker(lockerTicket);
 
         ClaimResult result = locker.claim(lockerTicket);
 
@@ -82,16 +79,23 @@ public class LockerTest {
     @Test
     public void should_claim_failed_when_claim_bag_given_fake_ticket() {
 
-        Locker locker = new Locker(lockerCapbility, lockerStoredAll);
-        ArrayList<LockerTicket> tickets = new ArrayList<>();
-        tickets.add(new LockerTicket(existedTicketId));
-        locker.setTickets(tickets);
+        Locker locker = buildLocker(new LockerTicket(existedTicketId));
         LockerTicket lockerTicket = new LockerTicket(fakeTicketId);
 
         ClaimResult result = locker.claim(lockerTicket);
 
         assertEquals(FAILED, result.getStatus());
         assertEquals(TICKET_INVALID_ERROR_MESSAGE, result.getErrorMessage());
+    }
+
+    private Locker buildLocker(LockerTicket lockerTicket) {
+        Locker locker = new Locker(lockerCapbility, lockerStoredAll);
+
+        ArrayList<LockerTicket> tickets = new ArrayList<>();
+        tickets.add(lockerTicket);
+        locker.setTickets(tickets);
+
+        return locker;
     }
 
 }
