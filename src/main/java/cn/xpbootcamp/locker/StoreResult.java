@@ -7,7 +7,8 @@ public class StoreResult extends OperateResult {
     }
 
     public LockerTicket getTicket() {
-        return new LockerTicket(1);
+        int newTicketId = 1;
+        return new LockerTicket(newTicketId);
     }
 
 }
