@@ -19,3 +19,10 @@
 6. 存包的位置是随机，没有顺序
 7. 不要脑补需求，及时和PO确认
 8. 不考虑并发
+
+### TASKING
+1. Given Locker有空柜和待存包包  When 存包 Then 存包成功，给小票
+2. Given Locker柜已满和待存包包  When 存包 Then 存包失败，提示用户柜已满
+3. Given 有效小票               When 取包 Then 取包成功
+4. Given 已使用过的小票          When 取包 Then 取包失败，提示票据无效
+5. Given 假的小票               When 取包 Then 取包失败，提示票据无效
