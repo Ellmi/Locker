@@ -2,16 +2,10 @@ package cn.xpbootcamp.locker;
 
 import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 
-public class StoreResult {
-
-    private LockerOperateStatusEnum status;
+public class StoreResult extends OperateResult {
 
     public StoreResult(LockerOperateStatusEnum statusEnum) {
         this.status = statusEnum;
-    }
-
-    public LockerOperateStatusEnum getStatus() {
-        return status;
     }
 
     public LockerTicket getTicket() {
