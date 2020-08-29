@@ -1,5 +1,8 @@
 package cn.xpbootcamp.locker;
 
+import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
+import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
+
 public class Locker {
     private int lockerCapbility;
     private int lockerStored;
@@ -10,6 +13,7 @@ public class Locker {
     }
 
     public StoreResult store() {
-        return new StoreResult();
+        if (lockerStored < lockerCapbility) return new StoreResult(SUCCESS);
+        return new StoreResult(FAILED);
     }
 }

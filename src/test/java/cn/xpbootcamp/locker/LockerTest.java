@@ -2,7 +2,9 @@ package cn.xpbootcamp.locker;
 
 import org.junit.Test;
 
+import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
+import static junit.framework.TestCase.assertNull;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,17 +18,30 @@ public class LockerTest {
 //    5. Given 假的小票               When 取包 Then 取包失败，提示票据无效
 
     private final int lockerCapbility = 10;
-    private final int lockerStored = 5;
+    private final int lockerStoredNotAll = 5;
+    private final int lockerStoredAll = 10;
 
     @Test
     public void should_store_success_and_provide_ticket_when_store_bag_given_locker_has_room() {
 
-        Locker locker = new Locker(lockerCapbility, lockerStored);
+        Locker locker = new Locker(lockerCapbility, lockerStoredNotAll);
 
         StoreResult result = locker.store();
 
         assertEquals(SUCCESS, result.getStatus());
         assertThat(result.getTicket(), instanceOf(LockerTicket.class));
+
+    }
+
+    @Test
+    public void should_store_failed_and_show_no_room_message_when_store_bag_given_locker_has_no_room() {
+
+        Locker locker = new Locker(lockerCapbility, lockerStoredAll);
+
+        StoreResult result = locker.store();
+
+        assertEquals(FAILED, result.getStatus());
+        assertEquals("There is no room", result.getErrorMessage());
 
     }
 
