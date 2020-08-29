@@ -2,6 +2,7 @@ package cn.xpbootcamp.locker;
 
 import org.junit.Test;
 
+import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +25,7 @@ public class LockerTest {
 
         StoreResult result = locker.store();
 
-        assertEquals("Success", result.getStatus());
+        assertEquals(SUCCESS, result.getStatus());
         assertThat(result.getTicket(), instanceOf(LockerTicket.class));
 
     }

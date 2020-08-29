@@ -1,11 +1,13 @@
 package cn.xpbootcamp.locker;
 
+import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
+
 public class StoreResult {
-    public String getStatus() {
-        return "Success";
+    public LockerOperateStatusEnum getStatus() {
+        return SUCCESS;
     }
 
-    public Object getTicket() {
+    public LockerTicket getTicket() {
         return new LockerTicket();
     }
 }
