@@ -2,9 +2,9 @@ package cn.xpbootcamp.locker;
 
 import org.junit.Test;
 
+import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
-import static junit.framework.TestCase.assertNull;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,7 +41,7 @@ public class LockerTest {
         StoreResult result = locker.store();
 
         assertEquals(FAILED, result.getStatus());
-        assertEquals("There is no room", result.getErrorMessage());
+        assertEquals(NO_ROOM_ERROR_MESSAGE, result.getErrorMessage());
 
     }
 
