@@ -23,6 +23,8 @@ public class LockerTest {
     private final int lockerCapbility = 10;
     private final int lockerStoredNotAll = 5;
     private final int lockerStoredAll = 10;
+    private final int existedTicketId = 1;
+    private final int fakeTicketId = 100;
 
     @Test
     public void should_store_success_and_provide_ticket_when_store_bag_given_locker_has_room() {
@@ -53,7 +55,7 @@ public class LockerTest {
 
         Locker locker = new Locker(lockerCapbility, lockerStoredAll);
         ArrayList<LockerTicket> tickets = new ArrayList<>();
-        LockerTicket ticket = new LockerTicket(1);
+        LockerTicket ticket = new LockerTicket(existedTicketId);
         tickets.add(ticket);
         locker.setTickets(tickets);
 
@@ -67,7 +69,7 @@ public class LockerTest {
     public void should_claim_failed_when_claim_bag_given_used_ticket() {
 
         Locker locker = new Locker(lockerCapbility, lockerStoredAll);
-        LockerTicket lockerTicket = new LockerTicket(1);
+        LockerTicket lockerTicket = new LockerTicket(existedTicketId);
         lockerTicket.setUsed(true);
 
         ClaimResult result = locker.claim(lockerTicket);
@@ -82,9 +84,9 @@ public class LockerTest {
 
         Locker locker = new Locker(lockerCapbility, lockerStoredAll);
         ArrayList<LockerTicket> tickets = new ArrayList<>();
-        tickets.add(new LockerTicket(1));
+        tickets.add(new LockerTicket(existedTicketId));
         locker.setTickets(tickets);
-        LockerTicket lockerTicket = new LockerTicket(100);
+        LockerTicket lockerTicket = new LockerTicket(fakeTicketId);
 
         ClaimResult result = locker.claim(lockerTicket);
 
