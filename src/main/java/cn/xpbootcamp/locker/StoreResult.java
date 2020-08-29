@@ -15,7 +15,7 @@ public class StoreResult {
     }
 
     public LockerTicket getTicket() {
-        return new LockerTicket();
+        return new LockerTicket(1);
     }
 
     public String getErrorMessage() {

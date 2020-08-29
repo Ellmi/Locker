@@ -1,11 +1,14 @@
 package cn.xpbootcamp.locker;
 
+import java.util.List;
+
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
 
 public class Locker {
     private int lockerCapbility;
     private int lockerStored;
+    private List<LockerTicket> tickets;
 
     public Locker(int lockerCapbility, int lockerStored) {
         this.lockerCapbility = lockerCapbility;
@@ -18,7 +21,11 @@ public class Locker {
     }
 
     public ClaimResult claim(LockerTicket lockerTicket) {
-        if (lockerTicket.isUsed()) return new ClaimResult(FAILED);
+        if (lockerTicket.isUsed() || !tickets.contains(lockerTicket)) return new ClaimResult(FAILED);
         return new ClaimResult(SUCCESS);
+    }
+
+    public void setTickets(List<LockerTicket> tickets) {
+        this.tickets = tickets;
     }
 }

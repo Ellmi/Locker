@@ -2,6 +2,8 @@ package cn.xpbootcamp.locker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
@@ -50,8 +52,12 @@ public class LockerTest {
     public void should_claim_success_when_claim_bag_given_unused_ticket() {
 
         Locker locker = new Locker(lockerCapbility, lockerStoredAll);
+        ArrayList<LockerTicket> tickets = new ArrayList<>();
+        LockerTicket ticket = new LockerTicket(1);
+        tickets.add(ticket);
+        locker.setTickets(tickets);
 
-        ClaimResult result = locker.claim(new LockerTicket());
+        ClaimResult result = locker.claim(ticket);
 
         assertEquals(SUCCESS, result.getStatus());
 
@@ -61,8 +67,24 @@ public class LockerTest {
     public void should_claim_failed_when_claim_bag_given_used_ticket() {
 
         Locker locker = new Locker(lockerCapbility, lockerStoredAll);
-        LockerTicket lockerTicket = new LockerTicket();
+        LockerTicket lockerTicket = new LockerTicket(1);
         lockerTicket.setUsed(true);
+
+        ClaimResult result = locker.claim(lockerTicket);
+
+        assertEquals(FAILED, result.getStatus());
+        assertEquals(TICKET_INVALID_ERROR_MESSAGE, result.getErrorMessage());
+    }
+
+
+    @Test
+    public void should_claim_failed_when_claim_bag_given_fake_ticket() {
+
+        Locker locker = new Locker(lockerCapbility, lockerStoredAll);
+        ArrayList<LockerTicket> tickets = new ArrayList<>();
+        tickets.add(new LockerTicket(1));
+        locker.setTickets(tickets);
+        LockerTicket lockerTicket = new LockerTicket(100);
 
         ClaimResult result = locker.claim(lockerTicket);
 
