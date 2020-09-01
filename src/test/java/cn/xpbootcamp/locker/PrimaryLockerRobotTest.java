@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
+import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
 import static junit.framework.TestCase.assertNull;
@@ -114,5 +115,24 @@ public class PrimaryLockerRobotTest {
         assertSame(storeBag2, getBagResult.getBag());
         assertEquals(SUCCESS, getBagResult.getStatus());
         assertEquals(STORE_BAG_SIZE_ZERO, locker2.getTicketBagMap().size());
+    }
+
+
+    @Test
+    public void should_get_bag_failed_and_show_invalid_ticket_message_when_get_bag_given_fake_ticket() {
+
+        Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
+        ArrayList<Locker> managedLockers = new ArrayList<>();
+        managedLockers.add(locker1);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot();
+        primaryLockerRobot.setManagedLockers(managedLockers);
+        primaryLockerRobot.store(new Bag());
+
+        GetBagResult getBagResult = primaryLockerRobot.getBag(new LockerTicket());
+
+
+        assertEquals(FAILED, getBagResult.getStatus());
+        assertEquals(TICKET_INVALID_ERROR_MESSAGE, getBagResult.getErrorMessage());
+        assertNull(getBagResult.getBag());
     }
 }
