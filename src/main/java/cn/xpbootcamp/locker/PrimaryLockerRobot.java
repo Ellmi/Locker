@@ -18,4 +18,8 @@ public class PrimaryLockerRobot {
         if (!firstAvailableLocker.isPresent()) return new StoreBagResult(FAILED, NO_ROOM_ERROR_MESSAGE);
         return firstAvailableLocker.get().storeBag(bag);
     }
+
+    public GetBagResult getBag(LockerTicket lockerTicket) {
+        return managedLockers.stream().filter(locker -> locker.getTicketBagMap().keySet().contains(lockerTicket)).findFirst().get().getBag(lockerTicket);
+    }
 }

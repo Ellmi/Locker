@@ -8,15 +8,14 @@ import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
 import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class PrimaryLockerRobotTest {
 
     //        1. Given primaryLockerRobot管理n>0个locker, n个locker都有空柜                     When primaryLockerRobot存包   Then 成功存包到第1个locker，返回小票
     //        2. Given primaryLockerRobot管理n>1个locker, 第1个locker已存满,第2个locker有空柜    When primaryLockerRobot存包   Then 成功存包到第2个locker，返回小票
     //        3. Given primaryLockerRobot管理n>0个locker, n个locker都已存满                     When primaryLockerRobot存包   Then 存包失败，提示储物柜已满
-    //        3. Given 有效小票   When primaryLockerRobot取包  Then 取包成功
+    //        4. Given primaryLockerRobot管理n>0个locker 以及有效小票                           When primaryLockerRobot取包   Then 取包成功
     //        5. Given 假的小票   When primaryLockerRobot取包  Then 取包失败，提示票据无效
 
     private final int LOCKER_CAPABILITY_TEN = 10;
@@ -88,5 +87,32 @@ public class PrimaryLockerRobotTest {
         assertEquals(NO_ROOM_ERROR_MESSAGE, storeBagResult.getErrorMessage());
         assertNull(storeBagResult.getLockerTicket());
 
+    }
+
+
+    @Test
+    public void should_get_bag_successful_when_get_bag_given_primaryLockerRobot_manage_multiple_locker_and_valid_ticket() {
+
+        Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
+        Locker locker2 = new Locker(LOCKER_CAPABILITY_ONE);
+        Locker locker3 = new Locker(LOCKER_CAPABILITY_ONE);
+        ArrayList<Locker> managedLockers = new ArrayList<>();
+        managedLockers.add(locker1);
+        managedLockers.add(locker2);
+        managedLockers.add(locker3);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot();
+        primaryLockerRobot.setManagedLockers(managedLockers);
+        primaryLockerRobot.store(new Bag());
+        Bag storeBag2 = new Bag();
+        StoreBagResult storeBagResult = primaryLockerRobot.store(storeBag2);
+        LockerTicket lockerTicket = storeBagResult.getLockerTicket();
+        primaryLockerRobot.store(new Bag());
+
+        GetBagResult getBagResult = primaryLockerRobot.getBag(lockerTicket);
+
+
+        assertSame(storeBag2, getBagResult.getBag());
+        assertEquals(SUCCESS, getBagResult.getStatus());
+        assertEquals(STORE_BAG_SIZE_ZERO, locker2.getTicketBagMap().size());
     }
 }
