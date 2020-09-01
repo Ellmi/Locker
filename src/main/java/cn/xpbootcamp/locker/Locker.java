@@ -1,7 +1,6 @@
 package cn.xpbootcamp.locker;
 
 import java.util.HashMap;
-import java.util.List;
 
 import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
@@ -17,6 +16,14 @@ public class Locker {
         this.lockerCapability = lockerCapability;
         this.availableCapability = lockerCapability;
         this.ticketBagMap = new HashMap<>();
+    }
+
+    public HashMap<LockerTicket, Bag> getTicketBagMap() {
+        return ticketBagMap;
+    }
+
+    public int getAvailableCapability() {
+        return availableCapability;
     }
 
     public StoreBagResult storeBag(Bag bag) {
