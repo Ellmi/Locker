@@ -4,7 +4,10 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
+import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -61,6 +64,29 @@ public class PrimaryLockerRobotTest {
         assertNotNull(storeBagResult.getLockerTicket());
         assertEquals(STORE_BAG_SIZE_ONE, locker1.getTicketBagMap().size());
         assertEquals(STORE_BAG_SIZE_ONE, locker2.getTicketBagMap().size());
+
+    }
+
+
+    @Test
+    public void should_store_failed_and_show_no_room_message__when_store_bag_given_primaryLockerRobot_manage_more_then_0_but_all_full() {
+
+        Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
+        Locker locker2 = new Locker(LOCKER_CAPABILITY_ONE);
+        ArrayList<Locker> managedLockers = new ArrayList<>();
+        managedLockers.add(locker1);
+        managedLockers.add(locker2);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot();
+        primaryLockerRobot.setManagedLockers(managedLockers);
+        primaryLockerRobot.store(new Bag());
+        primaryLockerRobot.store(new Bag());
+
+
+        StoreBagResult storeBagResult = primaryLockerRobot.store(new Bag());
+
+        assertEquals(FAILED, storeBagResult.getStatus());
+        assertEquals(NO_ROOM_ERROR_MESSAGE, storeBagResult.getErrorMessage());
+        assertNull(storeBagResult.getLockerTicket());
 
     }
 }
