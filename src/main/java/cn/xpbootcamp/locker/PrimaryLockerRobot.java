@@ -10,6 +10,6 @@ public class PrimaryLockerRobot {
     }
 
     public StoreBagResult store(Bag bag) {
-        return managedLockers.get(0).storeBag(bag);
+        return managedLockers.stream().filter(locker -> locker.getAvailableCapability() > 0).findFirst().get().storeBag(bag);
     }
 }
