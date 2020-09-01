@@ -1,14 +1,17 @@
 package cn.xpbootcamp.locker;
 
 public class StoreBagResult extends OperateResult {
+    private LockerTicket lockerTicket;
 
     public StoreBagResult(LockerOperateStatusEnum status, String errorMessage) {
         super(status, errorMessage);
     }
 
-    public LockerTicket getTicket() {
-        int newTicketId = 1;
-        return new LockerTicket(newTicketId);
+    public LockerTicket getLockerTicket() {
+        return lockerTicket;
     }
 
+    public void setLockerTicket(LockerTicket lockerTicket) {
+        this.lockerTicket = lockerTicket;
+    }
 }

@@ -1,20 +1,12 @@
 package cn.xpbootcamp.locker;
 
+import java.util.UUID;
+
 public class LockerTicket {
-    private int id;
-    private boolean used;
+    private UUID id;
 
-    public LockerTicket(int id) {
-        this.id = id;
-        this.used = false;
-    }
-
-    public boolean isUsed() {
-        return used;
-    }
-
-    public void setUsed(boolean used) {
-        this.used = used;
+    public LockerTicket() {
+        this.id = UUID.randomUUID();
     }
 
 }

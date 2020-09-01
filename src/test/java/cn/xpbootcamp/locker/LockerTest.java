@@ -2,13 +2,12 @@ package cn.xpbootcamp.locker;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,8 +21,6 @@ public class LockerTest {
 
     private final int LOCKER_CAPABILITY_TEN = 10;
     private final int LOCKER_CAPABILITY_ONE = 1;
-    private final int existedTicketId = 1;
-    private final int fakeTicketId = 100;
 
     @Test
     public void should_store_success_and_provide_ticket_when_store_bag_given_locker_has_room() {
@@ -33,7 +30,7 @@ public class LockerTest {
         StoreBagResult result = locker.storeBag(new Bag());
 
         assertEquals(SUCCESS, result.getStatus());
-        assertThat(result.getTicket(), instanceOf(LockerTicket.class));
+        assertThat(result.getLockerTicket(), instanceOf(LockerTicket.class));
 
     }
 
@@ -53,21 +50,27 @@ public class LockerTest {
     @Test
     public void should_claim_success_when_claim_bag_given_unused_ticket() {
 
-        LockerTicket ticket = new LockerTicket(existedTicketId);
-        Locker locker = buildLockerWithOneTicket(ticket);
+        Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
+        Bag storeBag = new Bag();
+        StoreBagResult storeBagResult = locker.storeBag(storeBag);
+        LockerTicket lockerTicket = storeBagResult.getLockerTicket();
 
-        GetBagResult result = locker.getBag(ticket);
+
+        GetBagResult result = locker.getBag(lockerTicket);
 
         assertEquals(SUCCESS, result.getStatus());
+        assertSame(storeBag, result.getBag());
 
     }
 
     @Test
     public void should_claim_failed_when_claim_bag_given_used_ticket() {
 
-        LockerTicket lockerTicket = new LockerTicket(existedTicketId);
-        lockerTicket.setUsed(true);
-        Locker locker = buildLockerWithOneTicket(lockerTicket);
+        Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
+        Bag storeBag = new Bag();
+        StoreBagResult storeBagResult = locker.storeBag(storeBag);
+        LockerTicket lockerTicket = storeBagResult.getLockerTicket();
+        locker.getBag(lockerTicket);
 
         GetBagResult result = locker.getBag(lockerTicket);
 
@@ -79,23 +82,14 @@ public class LockerTest {
     @Test
     public void should_claim_failed_when_claim_bag_given_fake_ticket() {
 
-        Locker locker = buildLockerWithOneTicket(new LockerTicket(existedTicketId));
-        LockerTicket lockerTicket = new LockerTicket(fakeTicketId);
+        Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
+        Bag storeBag = new Bag();
+        locker.storeBag(storeBag);
 
-        GetBagResult result = locker.getBag(lockerTicket);
+        GetBagResult result = locker.getBag(new LockerTicket());
 
         assertEquals(FAILED, result.getStatus());
         assertEquals(TICKET_INVALID_ERROR_MESSAGE, result.getErrorMessage());
-    }
-
-    private Locker buildLockerWithOneTicket(LockerTicket lockerTicket) {
-        Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
-
-        ArrayList<LockerTicket> tickets = new ArrayList<>();
-        tickets.add(lockerTicket);
-        locker.setTickets(tickets);
-
-        return locker;
     }
 
 }
