@@ -26,3 +26,10 @@
 3. Given 有效小票               When 取包 Then 取包成功
 4. Given 已使用过的小票          When 取包 Then 取包失败，提示票据无效
 5. Given 假的小票               When 取包 Then 取包失败，提示票据无效
+
+### Primary Locker Robot TASKING
+1. Given primaryLockerRobot管理n>0个locker, n个locker都有空柜                     When primaryLockerRobot存包   Then 成功存包到第1个locker，返回小票
+2. Given primaryLockerRobot管理n>1个locker, 第1个locker已存满,第2个locker有空柜    When primaryLockerRobot存包   Then 成功存包到第2个locker，返回小票
+3. Given primaryLockerRobot管理n>0个locker, n个locker都已存满                     When primaryLockerRobot存包   Then 存包失败，提示储物柜已满
+3. Given 有效小票   When primaryLockerRobot取包  Then 取包成功
+5. Given 假的小票   When primaryLockerRobot取包  Then 取包失败，提示票据无效
