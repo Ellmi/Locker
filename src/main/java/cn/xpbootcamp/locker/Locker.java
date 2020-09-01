@@ -8,17 +8,20 @@ import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
 
 public class Locker {
-    private int lockerCapbility;
-    private int lockerStored;
+    private int lockerCapability;
+    private int availableCapability;
     private List<LockerTicket> tickets;
 
-    public Locker(int lockerCapbility, int lockerStored) {
-        this.lockerCapbility = lockerCapbility;
-        this.lockerStored = lockerStored;
+    public Locker(int lockerCapability) {
+        this.lockerCapability = lockerCapability;
+        this.availableCapability = lockerCapability;
     }
 
-    public StoreBagResult storeBag() {
-        if (lockerStored < lockerCapbility) return new StoreBagResult(SUCCESS, "");
+    public StoreBagResult storeBag(Bag bag) {
+        if (availableCapability > 0) {
+            availableCapability--;
+            return new StoreBagResult(SUCCESS, "");
+        }
         return new StoreBagResult(FAILED, NO_ROOM_ERROR_MESSAGE);
     }
 

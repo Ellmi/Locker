@@ -20,19 +20,17 @@ public class LockerTest {
 //    4. Given 已使用过的小票          When 取包 Then 取包失败，提示票据无效
 //    5. Given 假的小票               When 取包 Then 取包失败，提示票据无效
 
-    private final int lockerCapbility = 10;
-    private final int lockerStoredNotAll = 5;
-    private final int lockerStoredOne = 1;
-    private final int lockerStoredAll = 10;
+    private final int LOCKER_CAPABILITY_TEN = 10;
+    private final int LOCKER_CAPABILITY_ONE = 1;
     private final int existedTicketId = 1;
     private final int fakeTicketId = 100;
 
     @Test
     public void should_store_success_and_provide_ticket_when_store_bag_given_locker_has_room() {
 
-        Locker locker = new Locker(lockerCapbility, lockerStoredNotAll);
+        Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
 
-        StoreBagResult result = locker.storeBag();
+        StoreBagResult result = locker.storeBag(new Bag());
 
         assertEquals(SUCCESS, result.getStatus());
         assertThat(result.getTicket(), instanceOf(LockerTicket.class));
@@ -42,9 +40,10 @@ public class LockerTest {
     @Test
     public void should_store_failed_and_show_no_room_message_when_store_bag_given_locker_has_no_room() {
 
-        Locker locker = new Locker(lockerCapbility, lockerStoredAll);
+        Locker locker = new Locker(LOCKER_CAPABILITY_ONE);
+        locker.storeBag(new Bag());
 
-        StoreBagResult result = locker.storeBag();
+        StoreBagResult result = locker.storeBag(new Bag());
 
         assertEquals(FAILED, result.getStatus());
         assertEquals(NO_ROOM_ERROR_MESSAGE, result.getErrorMessage());
@@ -90,7 +89,7 @@ public class LockerTest {
     }
 
     private Locker buildLockerWithOneTicket(LockerTicket lockerTicket) {
-        Locker locker = new Locker(lockerCapbility, lockerStoredOne);
+        Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
 
         ArrayList<LockerTicket> tickets = new ArrayList<>();
         tickets.add(lockerTicket);
