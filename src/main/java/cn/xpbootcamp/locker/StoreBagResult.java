@@ -1,8 +1,8 @@
 package cn.xpbootcamp.locker;
 
-public class StoreResult extends OperateResult {
+public class StoreBagResult extends OperateResult {
 
-    public StoreResult(LockerOperateStatusEnum status, String errorMessage) {
+    public StoreBagResult(LockerOperateStatusEnum status, String errorMessage) {
         super(status, errorMessage);
     }
 

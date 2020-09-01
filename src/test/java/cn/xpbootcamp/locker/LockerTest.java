@@ -32,7 +32,7 @@ public class LockerTest {
 
         Locker locker = new Locker(lockerCapbility, lockerStoredNotAll);
 
-        StoreResult result = locker.store();
+        StoreBagResult result = locker.storeBag();
 
         assertEquals(SUCCESS, result.getStatus());
         assertThat(result.getTicket(), instanceOf(LockerTicket.class));
@@ -44,7 +44,7 @@ public class LockerTest {
 
         Locker locker = new Locker(lockerCapbility, lockerStoredAll);
 
-        StoreResult result = locker.store();
+        StoreBagResult result = locker.storeBag();
 
         assertEquals(FAILED, result.getStatus());
         assertEquals(NO_ROOM_ERROR_MESSAGE, result.getErrorMessage());
@@ -57,7 +57,7 @@ public class LockerTest {
         LockerTicket ticket = new LockerTicket(existedTicketId);
         Locker locker = buildLockerWithOneTicket(ticket);
 
-        ClaimResult result = locker.claim(ticket);
+        GetBagResult result = locker.getBag(ticket);
 
         assertEquals(SUCCESS, result.getStatus());
 
@@ -70,7 +70,7 @@ public class LockerTest {
         lockerTicket.setUsed(true);
         Locker locker = buildLockerWithOneTicket(lockerTicket);
 
-        ClaimResult result = locker.claim(lockerTicket);
+        GetBagResult result = locker.getBag(lockerTicket);
 
         assertEquals(FAILED, result.getStatus());
         assertEquals(TICKET_INVALID_ERROR_MESSAGE, result.getErrorMessage());
@@ -83,7 +83,7 @@ public class LockerTest {
         Locker locker = buildLockerWithOneTicket(new LockerTicket(existedTicketId));
         LockerTicket lockerTicket = new LockerTicket(fakeTicketId);
 
-        ClaimResult result = locker.claim(lockerTicket);
+        GetBagResult result = locker.getBag(lockerTicket);
 
         assertEquals(FAILED, result.getStatus());
         assertEquals(TICKET_INVALID_ERROR_MESSAGE, result.getErrorMessage());

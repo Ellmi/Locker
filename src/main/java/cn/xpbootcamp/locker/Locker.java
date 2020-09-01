@@ -17,15 +17,15 @@ public class Locker {
         this.lockerStored = lockerStored;
     }
 
-    public StoreResult store() {
-        if (lockerStored < lockerCapbility) return new StoreResult(SUCCESS, "");
-        return new StoreResult(FAILED, NO_ROOM_ERROR_MESSAGE);
+    public StoreBagResult storeBag() {
+        if (lockerStored < lockerCapbility) return new StoreBagResult(SUCCESS, "");
+        return new StoreBagResult(FAILED, NO_ROOM_ERROR_MESSAGE);
     }
 
-    public ClaimResult claim(LockerTicket lockerTicket) {
+    public GetBagResult getBag(LockerTicket lockerTicket) {
         if (lockerTicket.isUsed() || !tickets.contains(lockerTicket))
-            return new ClaimResult(FAILED, TICKET_INVALID_ERROR_MESSAGE);
-        return new ClaimResult(SUCCESS, "");
+            return new GetBagResult(FAILED, TICKET_INVALID_ERROR_MESSAGE);
+        return new GetBagResult(SUCCESS, "");
     }
 
     public void setTickets(List<LockerTicket> tickets) {
