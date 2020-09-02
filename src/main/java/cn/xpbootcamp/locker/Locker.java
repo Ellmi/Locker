@@ -4,12 +4,10 @@ import java.util.HashMap;
 
 public class Locker {
     private int lockerCapability;
-    private int availableCapability;
     private HashMap<LockerTicket, Bag> ticketBagMap;
 
     public Locker(int lockerCapability) {
         this.lockerCapability = lockerCapability;
-        this.availableCapability = lockerCapability;
         this.ticketBagMap = new HashMap<>();
     }
 
@@ -17,13 +15,12 @@ public class Locker {
         return ticketBagMap;
     }
 
-    public int getAvailableCapability() {
-        return availableCapability;
+    public boolean canStoreBag() {
+        return ticketBagMap.size() < lockerCapability;
     }
 
     public LockerTicket storeBag(Bag bag) {
-        if (availableCapability > 0) {
-            availableCapability--;
+        if (canStoreBag()) {
 
             LockerTicket lockerTicket = new LockerTicket();
             ticketBagMap.put(lockerTicket, bag);

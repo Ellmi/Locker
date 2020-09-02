@@ -13,7 +13,7 @@ public class PrimaryLockerRobot {
     }
 
     public LockerTicket store(Bag bag) {
-        Optional<Locker> firstAvailableLocker = managedLockers.stream().filter(locker -> locker.getAvailableCapability() > 0).findFirst();
+        Optional<Locker> firstAvailableLocker = managedLockers.stream().filter(Locker::canStoreBag).findFirst();
         if (!firstAvailableLocker.isPresent()) throw new LockerIsFullException();
         return firstAvailableLocker.get().storeBag(bag);
     }
