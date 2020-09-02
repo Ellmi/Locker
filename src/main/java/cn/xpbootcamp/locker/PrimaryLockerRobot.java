@@ -1,9 +1,7 @@
 package cn.xpbootcamp.locker;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
@@ -24,8 +22,8 @@ public class PrimaryLockerRobot {
     }
 
     public GetBagResult getBag(LockerTicket lockerTicket) {
-        List<Locker> ticketContainedLocker = managedLockers.stream().filter(locker -> locker.getTicketBagMap().keySet().contains(lockerTicket)).collect(toList());
-        if (ticketContainedLocker.size() != 1) return new GetBagResult(FAILED, TICKET_INVALID_ERROR_MESSAGE);
-        return ticketContainedLocker.get(0).getBag(lockerTicket);
+        List<Locker> goalLocker = managedLockers.stream().filter(locker -> locker.getTicketBagMap().keySet().contains(lockerTicket)).collect(toList());
+        if (goalLocker.isEmpty()) return new GetBagResult(FAILED, TICKET_INVALID_ERROR_MESSAGE);
+        return goalLocker.get(0).getBag(lockerTicket);
     }
 }
