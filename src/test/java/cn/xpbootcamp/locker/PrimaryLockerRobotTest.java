@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
@@ -32,10 +31,9 @@ public class PrimaryLockerRobotTest {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1, locker2));
 
 
-        StoreBagResult storeBagResult = primaryLockerRobot.store(new Bag());
+        LockerTicket lockerTicket = primaryLockerRobot.store(new Bag());
 
-        assertEquals(SUCCESS, storeBagResult.getStatus());
-        assertNotNull(storeBagResult.getLockerTicket());
+        assertNotNull(lockerTicket);
         assertEquals(STORE_BAG_SIZE_ONE, locker1.getTicketBagMap().size());
         assertEquals(STORE_BAG_SIZE_ZERO, locker2.getTicketBagMap().size());
 
@@ -50,17 +48,16 @@ public class PrimaryLockerRobotTest {
         primaryLockerRobot.store(new Bag());
 
 
-        StoreBagResult storeBagResult = primaryLockerRobot.store(new Bag());
+        LockerTicket lockerTicket = primaryLockerRobot.store(new Bag());
 
-        assertEquals(SUCCESS, storeBagResult.getStatus());
-        assertNotNull(storeBagResult.getLockerTicket());
+        assertNotNull(lockerTicket);
         assertEquals(STORE_BAG_SIZE_ONE, locker1.getTicketBagMap().size());
         assertEquals(STORE_BAG_SIZE_ONE, locker2.getTicketBagMap().size());
 
     }
 
 
-    @Test
+    @Test(expected = LockerIsFullException.class)
     public void should_store_failed_and_show_no_room_message__when_store_bag_given_primaryLockerRobot_manage_more_then_0_but_all_full() {
 
         Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
@@ -70,11 +67,7 @@ public class PrimaryLockerRobotTest {
         primaryLockerRobot.store(new Bag());
 
 
-        StoreBagResult storeBagResult = primaryLockerRobot.store(new Bag());
-
-        assertEquals(FAILED, storeBagResult.getStatus());
-        assertEquals(NO_ROOM_ERROR_MESSAGE, storeBagResult.getErrorMessage());
-        assertNull(storeBagResult.getLockerTicket());
+        primaryLockerRobot.store(new Bag());
 
     }
 
@@ -88,8 +81,7 @@ public class PrimaryLockerRobotTest {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1, locker2, locker3));
         primaryLockerRobot.store(new Bag());
         Bag storeBag2 = new Bag();
-        StoreBagResult storeBagResult = primaryLockerRobot.store(storeBag2);
-        LockerTicket lockerTicket = storeBagResult.getLockerTicket();
+        LockerTicket lockerTicket = primaryLockerRobot.store(storeBag2);
         primaryLockerRobot.store(new Bag());
 
         GetBagResult getBagResult = primaryLockerRobot.getBag(lockerTicket);

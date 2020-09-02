@@ -2,13 +2,11 @@ package cn.xpbootcamp.locker;
 
 import org.junit.Test;
 
-import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LockerTest {
@@ -23,27 +21,23 @@ public class LockerTest {
     private final int LOCKER_CAPABILITY_ONE = 1;
 
     @Test
-    public void should_store_success_and_provide_ticket_when_store_bag_given_locker_has_room() {
+    public void should_store_success_and_provide_ticket_when_store_bag_given_locker_not_full() {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
 
-        StoreBagResult result = locker.storeBag(new Bag());
+        LockerTicket lockerTicket = locker.storeBag(new Bag());
 
-        assertEquals(SUCCESS, result.getStatus());
-        assertThat(result.getLockerTicket(), instanceOf(LockerTicket.class));
+        assertNotNull(lockerTicket);
 
     }
 
-    @Test
+    @Test(expected = LockerIsFullException.class)
     public void should_store_failed_and_show_no_room_message_when_store_bag_given_locker_has_no_room() {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_ONE);
         locker.storeBag(new Bag());
 
-        StoreBagResult result = locker.storeBag(new Bag());
-
-        assertEquals(FAILED, result.getStatus());
-        assertEquals(NO_ROOM_ERROR_MESSAGE, result.getErrorMessage());
+        locker.storeBag(new Bag());
 
     }
 
@@ -52,9 +46,7 @@ public class LockerTest {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
         Bag storeBag = new Bag();
-        StoreBagResult storeBagResult = locker.storeBag(storeBag);
-        LockerTicket lockerTicket = storeBagResult.getLockerTicket();
-
+        LockerTicket lockerTicket  = locker.storeBag(storeBag);
 
         GetBagResult result = locker.getBag(lockerTicket);
 
@@ -68,8 +60,7 @@ public class LockerTest {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
         Bag storeBag = new Bag();
-        StoreBagResult storeBagResult = locker.storeBag(storeBag);
-        LockerTicket lockerTicket = storeBagResult.getLockerTicket();
+        LockerTicket lockerTicket = locker.storeBag(storeBag);
         locker.getBag(lockerTicket);
 
         GetBagResult result = locker.getBag(lockerTicket);

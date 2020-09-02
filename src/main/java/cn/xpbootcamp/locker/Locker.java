@@ -2,7 +2,6 @@ package cn.xpbootcamp.locker;
 
 import java.util.HashMap;
 
-import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
@@ -26,17 +25,15 @@ public class Locker {
         return availableCapability;
     }
 
-    public StoreBagResult storeBag(Bag bag) {
+    public LockerTicket storeBag(Bag bag) {
         if (availableCapability > 0) {
             availableCapability--;
 
-            StoreBagResult storeBagSuccessResult = new StoreBagResult(SUCCESS, "");
             LockerTicket lockerTicket = new LockerTicket();
             ticketBagMap.put(lockerTicket, bag);
-            storeBagSuccessResult.setLockerTicket(lockerTicket);
-            return storeBagSuccessResult;
+            return lockerTicket;
         }
-        return new StoreBagResult(FAILED, NO_ROOM_ERROR_MESSAGE);
+        throw new LockerIsFullException();
     }
 
     public GetBagResult getBag(LockerTicket lockerTicket) {
