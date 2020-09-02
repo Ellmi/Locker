@@ -17,7 +17,7 @@ public class LockerTest {
     private final int LOCKER_CAPABILITY_ONE = 1;
 
     @Test
-    public void should_store_success_and_provide_ticket_when_store_bag_given_locker_not_full() {
+    public void should_return_ticket_when_store_bag_given_locker_not_full() {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
 
@@ -27,8 +27,9 @@ public class LockerTest {
 
     }
 
+
     @Test(expected = LockerIsFullException.class)
-    public void should_store_failed_and_show_no_room_message_when_store_bag_given_locker_has_no_room() {
+    public void should_throw_LockerIsFullException_when_store_bag_given_locker_is_full() {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_ONE);
         locker.storeBag(new Bag());
@@ -37,25 +38,26 @@ public class LockerTest {
 
     }
 
+
     @Test
-    public void should_claim_success_when_claim_bag_given_unused_ticket() {
+    public void should_return_correct_bag_when_get_bag_given_valid_ticket() {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
-        Bag storeBag = new Bag();
-        LockerTicket lockerTicket = locker.storeBag(storeBag);
+        Bag storingBag = new Bag();
+        LockerTicket lockerTicket = locker.storeBag(storingBag);
 
-        Bag bag = locker.getBag(lockerTicket);
+        Bag gettingBag = locker.getBag(lockerTicket);
 
-        assertSame(storeBag, bag);
+        assertSame(storingBag, gettingBag);
 
     }
 
+
     @Test(expected = InvalidTicketException.class)
-    public void should_claim_failed_when_claim_bag_given_used_ticket() {
+    public void should_throw_InvalidTicketException_when_get_bag_given_used_ticket() {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
-        Bag storeBag = new Bag();
-        LockerTicket lockerTicket = locker.storeBag(storeBag);
+        LockerTicket lockerTicket = locker.storeBag(new Bag());
         locker.getBag(lockerTicket);
 
         locker.getBag(lockerTicket);
@@ -64,14 +66,11 @@ public class LockerTest {
 
 
     @Test(expected = InvalidTicketException.class)
-    public void should_claim_failed_when_claim_bag_given_fake_ticket() {
+    public void should_throw_InvalidTicketException_when_get_bag_given_fake_ticket() {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
-        Bag storeBag = new Bag();
-        locker.storeBag(storeBag);
+        locker.storeBag(new Bag());
 
         locker.getBag(new LockerTicket());
-
     }
-
 }
