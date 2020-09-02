@@ -20,20 +20,23 @@ public class Locker {
     }
 
     public LockerTicket storeBag(Bag bag) {
-        if (canStoreBag()) {
 
+        if (canStoreBag()) {
             LockerTicket lockerTicket = new LockerTicket();
+
             ticketBagMap.put(lockerTicket, bag);
             return lockerTicket;
         }
+
         throw new LockerIsFullException();
     }
 
     public Bag getBag(LockerTicket lockerTicket) {
-        if (!ticketBagMap.keySet().contains(lockerTicket)) throw new InvalidTicketException();
 
-        Bag bag = ticketBagMap.get(lockerTicket);
-        ticketBagMap.remove(lockerTicket);
+        Bag bag = ticketBagMap.remove(lockerTicket);
+
+        if (bag == null) throw new InvalidTicketException();
+
         return bag;
     }
 }
