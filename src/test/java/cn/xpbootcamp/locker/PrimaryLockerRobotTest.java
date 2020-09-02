@@ -16,27 +16,24 @@ public class PrimaryLockerRobotTest {
 
     private final int LOCKER_CAPABILITY_TEN = 10;
     private final int LOCKER_CAPABILITY_ONE = 1;
-    private final int STORE_BAG_SIZE_ONE = 1;
-    private final int STORE_BAG_SIZE_ZERO = 0;
 
     @Test
-    public void should_store_success_into_locker_no1_and_provide_ticket_when_store_bag_given_primaryLockerRobot_manage_more_then_0_locker_which_all_not_full() {
+    public void should_return_ticket_and_store_bag_into_locker1_when_store_bag_given_managed_lockers_all_not_full() {
 
         Locker locker1 = new Locker(LOCKER_CAPABILITY_TEN);
         Locker locker2 = new Locker(LOCKER_CAPABILITY_TEN);
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1, locker2));
 
-
-        LockerTicket lockerTicket = primaryLockerRobot.store(new Bag());
+        Bag storingBag = new Bag();
+        LockerTicket lockerTicket = primaryLockerRobot.store(storingBag);
 
         assertNotNull(lockerTicket);
-        assertEquals(STORE_BAG_SIZE_ONE, locker1.getTicketBagMap().size());
-        assertEquals(STORE_BAG_SIZE_ZERO, locker2.getTicketBagMap().size());
+        assertSame(storingBag, locker1.getBag(lockerTicket));
 
     }
 
     @Test
-    public void should_store_success_into_locker_no2_and_provide_ticket_when_store_bag_given_primaryLockerRobot_manage_more_then_1_locker_which_no1_is_full_but_no2_not() {
+    public void should_return_ticket_and_store_bag_into_locker2_when_store_bag_given_managed_locker1_is_full_but_locker2_not() {
 
         Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
         Locker locker2 = new Locker(LOCKER_CAPABILITY_TEN);
@@ -44,17 +41,17 @@ public class PrimaryLockerRobotTest {
         primaryLockerRobot.store(new Bag());
 
 
-        LockerTicket lockerTicket = primaryLockerRobot.store(new Bag());
+        Bag storingBag = new Bag();
+        LockerTicket lockerTicket = primaryLockerRobot.store(storingBag);
 
         assertNotNull(lockerTicket);
-        assertEquals(STORE_BAG_SIZE_ONE, locker1.getTicketBagMap().size());
-        assertEquals(STORE_BAG_SIZE_ONE, locker2.getTicketBagMap().size());
+        assertSame(storingBag, locker2.getBag(lockerTicket));
 
     }
 
 
     @Test(expected = LockerIsFullException.class)
-    public void should_store_failed_and_show_no_room_message__when_store_bag_given_primaryLockerRobot_manage_more_then_0_but_all_full() {
+    public void should_throw_LockerIsFullException_when_store_bag_given_primaryLockerRobot_managed_lockers_all_full() {
 
         Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
         Locker locker2 = new Locker(LOCKER_CAPABILITY_ONE);
@@ -62,36 +59,33 @@ public class PrimaryLockerRobotTest {
         primaryLockerRobot.store(new Bag());
         primaryLockerRobot.store(new Bag());
 
-
         primaryLockerRobot.store(new Bag());
 
     }
 
 
     @Test
-    public void should_get_bag_successful_when_get_bag_given_primaryLockerRobot_manage_multiple_locker_and_valid_ticket() {
+    public void should_return_bag_when_get_bag_given_a_valid_ticket() {
 
         Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
         Locker locker2 = new Locker(LOCKER_CAPABILITY_ONE);
-        Locker locker3 = new Locker(LOCKER_CAPABILITY_ONE);
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1, locker2, locker3));
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1, locker2));
         primaryLockerRobot.store(new Bag());
-        Bag storeBag2 = new Bag();
-        LockerTicket lockerTicket = primaryLockerRobot.store(storeBag2);
-        primaryLockerRobot.store(new Bag());
+        Bag storingBag = new Bag();
+        LockerTicket lockerTicket = primaryLockerRobot.store(storingBag);
 
         Bag gettingBag = primaryLockerRobot.getBag(lockerTicket);
 
+        assertSame(storingBag, gettingBag);
 
-        assertSame(storeBag2, gettingBag);
     }
 
 
     @Test(expected = InvalidTicketException.class)
-    public void should_get_bag_failed_and_show_invalid_ticket_message_when_get_bag_given_fake_ticket() {
+    public void should_throw_InvalidTicketException_when_get_bag_given_fake_ticket() {
 
-        Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1));
+        Locker locker = new Locker(LOCKER_CAPABILITY_ONE);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker));
         primaryLockerRobot.store(new Bag());
 
         primaryLockerRobot.getBag(new LockerTicket());
