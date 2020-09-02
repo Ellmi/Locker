@@ -2,7 +2,7 @@ package cn.xpbootcamp.locker;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static cn.xpbootcamp.locker.ErrorMessageConstant.NO_ROOM_ERROR_MESSAGE;
 import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
@@ -29,11 +29,7 @@ public class PrimaryLockerRobotTest {
 
         Locker locker1 = new Locker(LOCKER_CAPABILITY_TEN);
         Locker locker2 = new Locker(LOCKER_CAPABILITY_TEN);
-        ArrayList<Locker> managedLockers = new ArrayList<>();
-        managedLockers.add(locker1);
-        managedLockers.add(locker2);
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot();
-        primaryLockerRobot.setManagedLockers(managedLockers);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1, locker2));
 
 
         StoreBagResult storeBagResult = primaryLockerRobot.store(new Bag());
@@ -50,11 +46,7 @@ public class PrimaryLockerRobotTest {
 
         Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
         Locker locker2 = new Locker(LOCKER_CAPABILITY_TEN);
-        ArrayList<Locker> managedLockers = new ArrayList<>();
-        managedLockers.add(locker1);
-        managedLockers.add(locker2);
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot();
-        primaryLockerRobot.setManagedLockers(managedLockers);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1, locker2));
         primaryLockerRobot.store(new Bag());
 
 
@@ -73,11 +65,7 @@ public class PrimaryLockerRobotTest {
 
         Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
         Locker locker2 = new Locker(LOCKER_CAPABILITY_ONE);
-        ArrayList<Locker> managedLockers = new ArrayList<>();
-        managedLockers.add(locker1);
-        managedLockers.add(locker2);
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot();
-        primaryLockerRobot.setManagedLockers(managedLockers);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1, locker2));
         primaryLockerRobot.store(new Bag());
         primaryLockerRobot.store(new Bag());
 
@@ -97,12 +85,7 @@ public class PrimaryLockerRobotTest {
         Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
         Locker locker2 = new Locker(LOCKER_CAPABILITY_ONE);
         Locker locker3 = new Locker(LOCKER_CAPABILITY_ONE);
-        ArrayList<Locker> managedLockers = new ArrayList<>();
-        managedLockers.add(locker1);
-        managedLockers.add(locker2);
-        managedLockers.add(locker3);
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot();
-        primaryLockerRobot.setManagedLockers(managedLockers);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1, locker2, locker3));
         primaryLockerRobot.store(new Bag());
         Bag storeBag2 = new Bag();
         StoreBagResult storeBagResult = primaryLockerRobot.store(storeBag2);
@@ -122,10 +105,7 @@ public class PrimaryLockerRobotTest {
     public void should_get_bag_failed_and_show_invalid_ticket_message_when_get_bag_given_fake_ticket() {
 
         Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
-        ArrayList<Locker> managedLockers = new ArrayList<>();
-        managedLockers.add(locker1);
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot();
-        primaryLockerRobot.setManagedLockers(managedLockers);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1));
         primaryLockerRobot.store(new Bag());
 
         GetBagResult getBagResult = primaryLockerRobot.getBag(new LockerTicket());

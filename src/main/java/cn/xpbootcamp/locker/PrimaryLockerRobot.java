@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toList;
 public class PrimaryLockerRobot {
     private List<Locker> managedLockers;
 
-    public void setManagedLockers(List<Locker> managedLockers) {
+    public PrimaryLockerRobot(List<Locker> managedLockers) {
         this.managedLockers = managedLockers;
     }
 
