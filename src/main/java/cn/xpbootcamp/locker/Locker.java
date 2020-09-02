@@ -11,8 +11,8 @@ public class Locker {
         this.ticketBagMap = new HashMap<>();
     }
 
-    public HashMap<LockerTicket, Bag> getTicketBagMap() {
-        return ticketBagMap;
+    public boolean hasBag(LockerTicket lockerTicket) {
+        return ticketBagMap.keySet().contains(lockerTicket);
     }
 
     public boolean canStoreBag() {
