@@ -3,8 +3,6 @@ package cn.xpbootcamp.locker;
 import java.util.List;
 import java.util.Optional;
 
-import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
-import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
 import static java.util.stream.Collectors.toList;
 
 public class PrimaryLockerRobot {
@@ -20,9 +18,9 @@ public class PrimaryLockerRobot {
         return firstAvailableLocker.get().storeBag(bag);
     }
 
-    public GetBagResult getBag(LockerTicket lockerTicket) {
+    public Bag getBag(LockerTicket lockerTicket) {
         List<Locker> goalLocker = managedLockers.stream().filter(locker -> locker.getTicketBagMap().keySet().contains(lockerTicket)).collect(toList());
-        if (goalLocker.isEmpty()) return new GetBagResult(FAILED, TICKET_INVALID_ERROR_MESSAGE);
+        if (goalLocker.isEmpty()) throw new InvalidTicketException();
         return goalLocker.get(0).getBag(lockerTicket);
     }
 }

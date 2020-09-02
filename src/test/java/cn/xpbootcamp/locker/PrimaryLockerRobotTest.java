@@ -4,10 +4,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
-import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
-import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
-import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.*;
 
 public class PrimaryLockerRobotTest {
@@ -84,27 +80,21 @@ public class PrimaryLockerRobotTest {
         LockerTicket lockerTicket = primaryLockerRobot.store(storeBag2);
         primaryLockerRobot.store(new Bag());
 
-        GetBagResult getBagResult = primaryLockerRobot.getBag(lockerTicket);
+        Bag gettingBag = primaryLockerRobot.getBag(lockerTicket);
 
 
-        assertSame(storeBag2, getBagResult.getBag());
-        assertEquals(SUCCESS, getBagResult.getStatus());
-        assertEquals(STORE_BAG_SIZE_ZERO, locker2.getTicketBagMap().size());
+        assertSame(storeBag2, gettingBag);
     }
 
 
-    @Test
+    @Test(expected = InvalidTicketException.class)
     public void should_get_bag_failed_and_show_invalid_ticket_message_when_get_bag_given_fake_ticket() {
 
         Locker locker1 = new Locker(LOCKER_CAPABILITY_ONE);
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(List.of(locker1));
         primaryLockerRobot.store(new Bag());
 
-        GetBagResult getBagResult = primaryLockerRobot.getBag(new LockerTicket());
+        primaryLockerRobot.getBag(new LockerTicket());
 
-
-        assertEquals(FAILED, getBagResult.getStatus());
-        assertEquals(TICKET_INVALID_ERROR_MESSAGE, getBagResult.getErrorMessage());
-        assertNull(getBagResult.getBag());
     }
 }

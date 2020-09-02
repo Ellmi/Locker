@@ -2,10 +2,6 @@ package cn.xpbootcamp.locker;
 
 import java.util.HashMap;
 
-import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
-import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
-import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
-
 public class Locker {
     private int lockerCapability;
     private int availableCapability;
@@ -36,12 +32,11 @@ public class Locker {
         throw new LockerIsFullException();
     }
 
-    public GetBagResult getBag(LockerTicket lockerTicket) {
-        if (!ticketBagMap.keySet().contains(lockerTicket)) return new GetBagResult(FAILED, TICKET_INVALID_ERROR_MESSAGE);
+    public Bag getBag(LockerTicket lockerTicket) {
+        if (!ticketBagMap.keySet().contains(lockerTicket)) throw new InvalidTicketException();
 
-        GetBagResult getBagSuccessResult = new GetBagResult(SUCCESS, "");
-        getBagSuccessResult.setBag(ticketBagMap.get(lockerTicket));
+        Bag bag = ticketBagMap.get(lockerTicket);
         ticketBagMap.remove(lockerTicket);
-        return getBagSuccessResult;
+        return bag;
     }
 }

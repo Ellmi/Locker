@@ -2,12 +2,8 @@ package cn.xpbootcamp.locker;
 
 import org.junit.Test;
 
-import static cn.xpbootcamp.locker.ErrorMessageConstant.TICKET_INVALID_ERROR_MESSAGE;
-import static cn.xpbootcamp.locker.LockerOperateStatusEnum.FAILED;
-import static cn.xpbootcamp.locker.LockerOperateStatusEnum.SUCCESS;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LockerTest {
 
@@ -46,16 +42,15 @@ public class LockerTest {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
         Bag storeBag = new Bag();
-        LockerTicket lockerTicket  = locker.storeBag(storeBag);
+        LockerTicket lockerTicket = locker.storeBag(storeBag);
 
-        GetBagResult result = locker.getBag(lockerTicket);
+        Bag bag = locker.getBag(lockerTicket);
 
-        assertEquals(SUCCESS, result.getStatus());
-        assertSame(storeBag, result.getBag());
+        assertSame(storeBag, bag);
 
     }
 
-    @Test
+    @Test(expected = InvalidTicketException.class)
     public void should_claim_failed_when_claim_bag_given_used_ticket() {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
@@ -63,24 +58,20 @@ public class LockerTest {
         LockerTicket lockerTicket = locker.storeBag(storeBag);
         locker.getBag(lockerTicket);
 
-        GetBagResult result = locker.getBag(lockerTicket);
+        locker.getBag(lockerTicket);
 
-        assertEquals(FAILED, result.getStatus());
-        assertEquals(TICKET_INVALID_ERROR_MESSAGE, result.getErrorMessage());
     }
 
 
-    @Test
+    @Test(expected = InvalidTicketException.class)
     public void should_claim_failed_when_claim_bag_given_fake_ticket() {
 
         Locker locker = new Locker(LOCKER_CAPABILITY_TEN);
         Bag storeBag = new Bag();
         locker.storeBag(storeBag);
 
-        GetBagResult result = locker.getBag(new LockerTicket());
+        locker.getBag(new LockerTicket());
 
-        assertEquals(FAILED, result.getStatus());
-        assertEquals(TICKET_INVALID_ERROR_MESSAGE, result.getErrorMessage());
     }
 
 }
