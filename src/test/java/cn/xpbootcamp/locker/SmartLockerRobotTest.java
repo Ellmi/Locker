@@ -57,4 +57,17 @@ public class SmartLockerRobotTest {
         assertSame(storingBag, locker1.getBag(lockerTicket));
 
     }
+
+    @Test(expected = LockerIsFullException.class)
+    public void should_throw_LockerIsFullException_when_store_bag_given_managed_locker_all_full() {
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        locker1.storeBag(new Bag());
+        locker2.storeBag(new Bag());
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(List.of(locker1, locker2));
+        Bag storingBag = new Bag();
+
+        smartLockerRobot.store(storingBag);
+
+    }
 }
