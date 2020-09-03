@@ -43,4 +43,18 @@ public class SmartLockerRobotTest {
         assertSame(storingBag, locker2.getBag(lockerTicket));
 
     }
+
+    @Test
+    public void should_return_ticket_and_store_in_sequence_when_store_bag_given_managed_locker_has_same_not_zero_free_capability() {
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(List.of(locker1, locker2));
+        Bag storingBag = new Bag();
+
+        LockerTicket lockerTicket = smartLockerRobot.store(storingBag);
+
+        assertNotNull(lockerTicket);
+        assertSame(storingBag, locker1.getBag(lockerTicket));
+
+    }
 }
