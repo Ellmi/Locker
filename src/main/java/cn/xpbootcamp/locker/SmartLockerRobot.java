@@ -13,4 +13,8 @@ public class SmartLockerRobot {
     public LockerTicket store(Bag bag) {
         return managedLockers.stream().sorted(Comparator.comparing(Locker::getAvailableCapability).reversed()).findFirst().get().storeBag(bag);
     }
+
+    public Bag getBag(LockerTicket lockerTicket) {
+        return managedLockers.stream().filter(locker -> locker.hasBag(lockerTicket)).findAny().get().getBag(lockerTicket);
+    }
 }

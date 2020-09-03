@@ -70,4 +70,19 @@ public class SmartLockerRobotTest {
         smartLockerRobot.store(storingBag);
 
     }
+
+    @Test
+    public void should_return_correct_bag_when_get_bag_given_valid_ticket() {
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(1);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(List.of(locker1, locker2));
+        smartLockerRobot.store(new Bag());
+        Bag storingBag = new Bag();
+        LockerTicket lockerTicket = smartLockerRobot.store(storingBag);
+
+        Bag gettingBag = smartLockerRobot.getBag(lockerTicket);
+
+        assertSame(storingBag, gettingBag);
+
+    }
 }
