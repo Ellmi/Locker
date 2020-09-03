@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class PrimaryLockerRobot {
-    private List<Locker> managedLockers;
+    protected List<Locker> managedLockers;
 
     public PrimaryLockerRobot(List<Locker> managedLockers) {
         this.managedLockers = managedLockers;
