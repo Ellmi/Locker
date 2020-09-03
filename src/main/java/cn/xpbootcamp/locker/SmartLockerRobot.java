@@ -2,6 +2,7 @@ package cn.xpbootcamp.locker;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class SmartLockerRobot {
     private List<Locker> managedLockers;
@@ -15,6 +16,8 @@ public class SmartLockerRobot {
     }
 
     public Bag getBag(LockerTicket lockerTicket) {
-        return managedLockers.stream().filter(locker -> locker.hasBag(lockerTicket)).findAny().get().getBag(lockerTicket);
+        Optional<Locker> goalLocker = managedLockers.stream().filter(locker -> locker.hasBag(lockerTicket)).findAny();
+        if (goalLocker.isPresent()) return goalLocker.get().getBag(lockerTicket);
+        throw new InvalidTicketException();
     }
 }
