@@ -19,6 +19,10 @@ public class Locker {
         return ticketBagMap.size() < lockerCapability;
     }
 
+    public int getAvailableCapability() {
+        return lockerCapability - ticketBagMap.size();
+    }
+
     public LockerTicket storeBag(Bag bag) {
 
         if (canStoreBag()) {

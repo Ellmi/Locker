@@ -1,5 +1,6 @@
 package cn.xpbootcamp.locker;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class SmartLockerRobot {
@@ -10,6 +11,6 @@ public class SmartLockerRobot {
     }
 
     public LockerTicket store(Bag bag) {
-        return managedLockers.get(0).storeBag(bag);
+        return managedLockers.stream().sorted(Comparator.comparing(Locker::getAvailableCapability).reversed()).findFirst().get().storeBag(bag);
     }
 }
