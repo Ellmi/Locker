@@ -3,7 +3,7 @@ package cn.xpbootcamp.locker;
 import java.util.Comparator;
 import java.util.List;
 
-public class SmartLockerRobot extends PrimaryLockerRobot {
+public class SmartLockerRobot extends LockerRobot {
 
     public SmartLockerRobot(List<Locker> managedLockers) {
         super(managedLockers);
