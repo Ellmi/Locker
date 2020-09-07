@@ -3,11 +3,11 @@ package cn.xpbootcamp.locker;
 import java.util.HashMap;
 
 public class Locker {
-    private int lockerCapability;
+    private final int capacity;
     private HashMap<LockerTicket, Bag> ticketBagMap;
 
     public Locker(int lockerCapability) {
-        this.lockerCapability = lockerCapability;
+        this.capacity = lockerCapability;
         this.ticketBagMap = new HashMap<>();
     }
 
@@ -16,11 +16,11 @@ public class Locker {
     }
 
     public boolean canStoreBag() {
-        return ticketBagMap.size() < lockerCapability;
+        return ticketBagMap.size() < capacity;
     }
 
     public int getAvailableCapability() {
-        return lockerCapability - ticketBagMap.size();
+        return capacity - ticketBagMap.size();
     }
 
     public LockerTicket storeBag(Bag bag) {

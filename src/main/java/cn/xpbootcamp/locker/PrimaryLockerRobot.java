@@ -12,13 +12,17 @@ public class PrimaryLockerRobot {
 
     public LockerTicket store(Bag bag) {
         Optional<Locker> goalLocker = managedLockers.stream().filter(Locker::canStoreBag).findFirst();
-        if (goalLocker.isPresent()) return goalLocker.get().storeBag(bag);
+        if (goalLocker.isPresent()) {
+            return goalLocker.get().storeBag(bag);
+        }
         throw new LockerIsFullException();
     }
 
     public Bag getBag(LockerTicket lockerTicket) {
         Optional<Locker> goalLocker = managedLockers.stream().filter(locker -> locker.hasBag(lockerTicket)).findAny();
-        if (goalLocker.isPresent()) return goalLocker.get().getBag(lockerTicket);
+        if (goalLocker.isPresent()) {
+            return goalLocker.get().getBag(lockerTicket);
+        }
         throw new InvalidTicketException();
     }
 }
