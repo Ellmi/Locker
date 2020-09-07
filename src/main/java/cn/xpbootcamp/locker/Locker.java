@@ -2,28 +2,28 @@ package cn.xpbootcamp.locker;
 
 import java.util.HashMap;
 
-public class Locker {
+class Locker {
     private final int capacity;
     private HashMap<LockerTicket, Bag> ticketBagMap;
 
-    public Locker(int lockerCapability) {
+    Locker(int lockerCapability) {
         this.capacity = lockerCapability;
         this.ticketBagMap = new HashMap<>();
     }
 
-    public boolean hasBag(LockerTicket lockerTicket) {
+    boolean hasBag(LockerTicket lockerTicket) {
         return ticketBagMap.keySet().contains(lockerTicket);
     }
 
-    public boolean canStoreBag() {
+    boolean canStoreBag() {
         return ticketBagMap.size() < capacity;
     }
 
-    public int getAvailableCapability() {
+    int getAvailableCapability() {
         return capacity - ticketBagMap.size();
     }
 
-    public LockerTicket storeBag(Bag bag) {
+    LockerTicket storeBag(Bag bag) {
 
         if (canStoreBag()) {
             LockerTicket lockerTicket = new LockerTicket();
@@ -35,7 +35,7 @@ public class Locker {
         throw new LockerIsFullException();
     }
 
-    public Bag getBag(LockerTicket lockerTicket) {
+    Bag getBag(LockerTicket lockerTicket) {
 
         Bag bag = ticketBagMap.remove(lockerTicket);
 
