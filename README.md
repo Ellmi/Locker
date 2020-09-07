@@ -42,3 +42,71 @@
 4. Given SmartLockerRobot管理2个locker,均已存满                                When SmartLockerRobot存包     Then 存包失败，提示储物柜已满
 5. Given 有效小票                                                             When SmartLockerRobot取包     Then 取包成功
 6. Given 假的小票                                                             When SmartLockerRobot取包     Then 取包失败，提示票据无效
+
+### Locker Robot Manager TASKING
+#### 存包
+1.  Given LockerRobotManager管理多个locker,例如2个,均有剩余容量,且不管理robot
+    When LockerRobotManager存包
+    Then 成功存包到第1个locker, 返回小票
+
+2.  Given LockerRobotManager管理多个locker,例如2个,第1个locker已存满,第2个locker有剩余容量,且不管理robot
+    When LockerRobotManager存包
+    Then 成功存包到第2个locker, 返回小票
+
+3.  Given LockerRobotManager管理多个locker,例如2个,2个locker均已存满,且不管理robot
+    When LockerRobotManager存包
+    Then 存包失败，提示储物柜已满
+
+4.  Given LockerRobotManager管理1个locker,locker有剩余容量,并且管理1个robot,robot管理的locker有剩余容量
+    When LockerRobotManager存包
+    Then 成功存包到robot管理的locker, 返回小票
+
+5.  Given LockerRobotManager管理1个locker,locker有剩余容量,并且管理1个robot,robot管理的locker已存满
+    When LockerRobotManager存包
+    Then 存包失败，提示储物柜已满
+
+6.  Given LockerRobotManager管理1个locker,locker已存满,并且管理1个robot,robot管理的locker已存满
+    When LockerRobotManager存包
+    Then 成功存包到LockerRobotManager自己管理的locker, 返回小票
+
+7.  Given LockerRobotManager管理0个locker,并且管理多个robot,例如2个,2个robot管理的locker均有剩余容量
+    When LockerRobotManager存包
+    Then 成功存包到第1个robot管理的locker, 返回小票
+
+8.  Given LockerRobotManager管理0个locker,并且管理多个robot,例如2个,第1个robot管理的locker已存满,第2个robot管理的locker有剩余容量
+    When LockerRobotManager存包
+    Then 成功存包到第2个robot管理的locker, 返回小票
+
+9.  Given LockerRobotManager管理0个locker,并且管理多个robot,例如2个,2个robot管理的locker均已存满
+    When LockerRobotManager存包
+    Then 存包失败，提示储物柜已满
+
+#### 取包
+
+10. Given LockerRobotManager未管理locker,并且管理多个robot,例如2个,以及属于其中一个robot所管理的locker的有效小票
+    When LockerRobotManager取包
+    Then 成功从正确的robot所管理的locker中取得包
+
+11. Given LockerRobotManager未管理locker,并且管理多个robot,例如2个,以及一张无效小票
+    When LockerRobotManager取包
+    Then 取包失败，提示票据无效
+
+12. Given LockerRobotManager管理多个locker,例如2个,并且未管理robot,以及属于其中一个locker的有效小票
+    When LockerRobotManager取包
+    Then 成功从正确的locker中取得包
+
+13. Given LockerRobotManager管理多个locker,例如2个,并且未管理robot,以及一张无效小票
+    When LockerRobotManager取包
+    Then 取包失败，提示票据无效
+
+14. Given LockerRobotManager管理1个locker,并且管理1个robot,以及属于locker的有效小票
+    When LockerRobotManager取包
+    Then 成功从locker中取得包
+
+15. Given LockerRobotManager管理1个locker,并且管理1个robot,以及属于robot所管理locker的有效小票
+    When LockerRobotManager取包
+    Then 成功从robot管理的locker中取得包
+
+16. Given LockerRobotManager管理1个locker,并且管理1个robot,以及一张无效小票
+    When LockerRobotManager取包
+    Then 取包失败，提示票据无效
