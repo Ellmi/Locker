@@ -10,6 +10,10 @@ public abstract class LockerRobot {
         this.managedLockers = managedLockers;
     }
 
+    List<Locker> getManagedLockers() {
+        return managedLockers;
+    }
+
     protected abstract LockerTicket store(Bag bag);
 
     public Bag getBag(LockerTicket lockerTicket) {
