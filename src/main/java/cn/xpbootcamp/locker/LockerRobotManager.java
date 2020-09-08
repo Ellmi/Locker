@@ -1,6 +1,7 @@
 package cn.xpbootcamp.locker;
 
 import java.util.List;
+import java.util.Optional;
 
 public class LockerRobotManager extends LockerRobot {
     public LockerRobotManager(List<Locker> managedLockers, List<LockerRobot> managedRobots) {
@@ -9,6 +10,10 @@ public class LockerRobotManager extends LockerRobot {
 
     @Override
     public LockerTicket store(Bag bag) {
-        return managedLockers.stream().filter(Locker::canStoreBag).findFirst().get().storeBag(bag);
+        Optional<Locker> goalLocker = managedLockers.stream().filter(Locker::canStoreBag).findFirst();
+        if (goalLocker.isPresent()) {
+            return goalLocker.get().storeBag(bag);
+        }
+        throw new LockerIsFullException();
     }
 }
