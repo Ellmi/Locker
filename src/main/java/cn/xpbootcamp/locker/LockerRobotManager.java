@@ -15,10 +15,10 @@ public class LockerRobotManager extends LockerRobot {
     public LockerTicket store(Bag bag) {
 
         if (!managedRobots.isEmpty()) {
-            Optional<Locker> goalLocker = managedRobots.get(0).getManagedLockers().stream().filter(Locker::canStoreBag).findFirst();
+            Optional<LockerRobot> goalRobot = managedRobots.stream().filter(LockerRobot::canStoreBag).findFirst();
 
-            if (goalLocker.isPresent()) {
-                return goalLocker.get().storeBag(bag);
+            if (goalRobot.isPresent()) {
+                return goalRobot.get().store(bag);
             }
         }
 

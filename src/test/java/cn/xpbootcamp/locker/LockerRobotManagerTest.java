@@ -115,4 +115,22 @@ public class LockerRobotManagerTest {
         assertSame(storedBag, firstRobotLocker.getBag(lockerTicket));
 
     }
+
+
+    @Test
+    public void should_return_ticket_and_store_into_second_robot_locker_when_store_bag_given_robot_only_manage_two_robots_which_the_first_is_full_but_second_not() {
+        Locker firstRobotLocker = new Locker(1);
+        Locker secondRobotLocker = new Locker(1);
+        LockerRobot firstRobot = new PrimaryLockerRobot(List.of(firstRobotLocker));
+        LockerRobot secondRobot = new PrimaryLockerRobot(List.of(secondRobotLocker));
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(List.of(), List.of(firstRobot, secondRobot));
+        lockerRobotManager.store(new Bag());
+        Bag storedBag = new Bag();
+
+        LockerTicket lockerTicket = lockerRobotManager.store(storedBag);
+
+        assertNotNull(lockerTicket);
+        assertSame(storedBag, secondRobotLocker.getBag(lockerTicket));
+
+    }
 }

@@ -10,8 +10,8 @@ public abstract class LockerRobot {
         this.managedLockers = managedLockers;
     }
 
-    List<Locker> getManagedLockers() {
-        return managedLockers;
+    protected boolean canStoreBag() {
+        return managedLockers.stream().filter(Locker::canStoreBag).findFirst().isPresent();
     }
 
     protected abstract LockerTicket store(Bag bag);
