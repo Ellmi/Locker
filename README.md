@@ -63,11 +63,11 @@
 
 5.  Given LockerRobotManager管理1个locker,locker有剩余容量,并且管理1个robot,robot管理的locker已存满
     When LockerRobotManager存包
-    Then 存包失败，提示储物柜已满
+    Then 成功存包到LockerRobotManager自己管理的locker, 返回小票
 
 6.  Given LockerRobotManager管理1个locker,locker已存满,并且管理1个robot,robot管理的locker已存满
     When LockerRobotManager存包
-    Then 成功存包到LockerRobotManager自己管理的locker, 返回小票
+    Then 存包失败，提示储物柜已满
 
 7.  Given LockerRobotManager管理0个locker,并且管理多个robot,例如2个,2个robot管理的locker均有剩余容量
     When LockerRobotManager存包
