@@ -133,4 +133,19 @@ public class LockerRobotManagerTest {
         assertSame(storedBag, secondRobotLocker.getBag(lockerTicket));
 
     }
+
+    @Test(expected = LockerIsFullException.class)
+    public void should_throw_LockerIsFullException_when_store_bag_given_robot_only_manage_two_robots_whose_lockers_all_full() {
+        Locker firstRobotLocker = new Locker(1);
+        Locker secondRobotLocker = new Locker(1);
+        LockerRobot firstRobot = new PrimaryLockerRobot(List.of(firstRobotLocker));
+        LockerRobot secondRobot = new PrimaryLockerRobot(List.of(secondRobotLocker));
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(List.of(), List.of(firstRobot, secondRobot));
+        lockerRobotManager.store(new Bag());
+        lockerRobotManager.store(new Bag());
+        Bag storedBag = new Bag();
+
+        lockerRobotManager.store(storedBag);
+
+    }
 }
