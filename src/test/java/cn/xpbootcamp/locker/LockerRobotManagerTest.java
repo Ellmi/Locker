@@ -87,7 +87,7 @@ public class LockerRobotManagerTest {
 
 
     @Test(expected = LockerIsFullException.class)
-    public void should_return_ticket_and_store_into_manager_locker_when_store_bag_given_robot_manage_one_full_locker_and_one_robot_whose_locker_full_too() {
+    public void should_throw_LockerIsFullException_when_store_bag_given_robot_manage_one_full_locker_and_one_robot_whose_locker_full_too() {
         Locker managerLocker = new Locker(1);
         Locker robotLocker = new Locker(1);
         LockerRobot lockerRobot = new PrimaryLockerRobot(List.of(robotLocker));
@@ -101,11 +101,11 @@ public class LockerRobotManagerTest {
 
 
     @Test
-    public void should_return_ticket_and_store_into_first_robot_locker_when_store_bag_given_robot_only_manage_two_robot_whose_lockers_all_available() {
+    public void should_return_ticket_and_store_into_first_robot_locker_when_store_bag_given_robot_only_manage_two_robots_and_their_lockers_all_available() {
         Locker firstRobotLocker = new Locker(1);
         Locker secondRobotLocker = new Locker(1);
         LockerRobot firstRobot = new PrimaryLockerRobot(List.of(firstRobotLocker));
-        LockerRobot secondRobot = new PrimaryLockerRobot(List.of(secondRobotLocker));
+        LockerRobot secondRobot = new SmartLockerRobot(List.of(secondRobotLocker));
         LockerRobotManager lockerRobotManager = new LockerRobotManager(List.of(), List.of(firstRobot, secondRobot));
         Bag storedBag = new Bag();
 
@@ -118,11 +118,11 @@ public class LockerRobotManagerTest {
 
 
     @Test
-    public void should_return_ticket_and_store_into_second_robot_locker_when_store_bag_given_robot_only_manage_two_robots_which_the_first_is_full_but_second_not() {
+    public void should_return_ticket_and_store_into_second_robot_locker_when_store_bag_given_robot_only_manage_two_robots_and_the_locker_of_first_is_full_but_second_not() {
         Locker firstRobotLocker = new Locker(1);
         Locker secondRobotLocker = new Locker(1);
         LockerRobot firstRobot = new PrimaryLockerRobot(List.of(firstRobotLocker));
-        LockerRobot secondRobot = new PrimaryLockerRobot(List.of(secondRobotLocker));
+        LockerRobot secondRobot = new SmartLockerRobot(List.of(secondRobotLocker));
         LockerRobotManager lockerRobotManager = new LockerRobotManager(List.of(), List.of(firstRobot, secondRobot));
         lockerRobotManager.store(new Bag());
         Bag storedBag = new Bag();
@@ -135,11 +135,11 @@ public class LockerRobotManagerTest {
     }
 
     @Test(expected = LockerIsFullException.class)
-    public void should_throw_LockerIsFullException_when_store_bag_given_robot_only_manage_two_robots_whose_lockers_all_full() {
+    public void should_throw_LockerIsFullException_when_store_bag_given_robot_only_manage_two_robots_and_their_lockers_all_full() {
         Locker firstRobotLocker = new Locker(1);
         Locker secondRobotLocker = new Locker(1);
         LockerRobot firstRobot = new PrimaryLockerRobot(List.of(firstRobotLocker));
-        LockerRobot secondRobot = new PrimaryLockerRobot(List.of(secondRobotLocker));
+        LockerRobot secondRobot = new SmartLockerRobot(List.of(secondRobotLocker));
         LockerRobotManager lockerRobotManager = new LockerRobotManager(List.of(), List.of(firstRobot, secondRobot));
         lockerRobotManager.store(new Bag());
         lockerRobotManager.store(new Bag());
