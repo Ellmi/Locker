@@ -9,6 +9,6 @@ public class LockerRobotManager extends LockerRobot {
 
     @Override
     public LockerTicket store(Bag bag) {
-        return managedLockers.get(0).storeBag(bag);
+        return managedLockers.stream().filter(Locker::canStoreBag).findFirst().get().storeBag(bag);
     }
 }
