@@ -14,6 +14,10 @@ public abstract class LockerRobot {
         return managedLockers.stream().filter(Locker::canStoreBag).findFirst().isPresent();
     }
 
+    protected boolean hasBag(LockerTicket lockerTicket) {
+        return managedLockers.stream().filter(locker -> locker.hasBag(lockerTicket)).findAny().isPresent();
+    }
+
     protected abstract LockerTicket store(Bag bag);
 
     public Bag getBag(LockerTicket lockerTicket) {

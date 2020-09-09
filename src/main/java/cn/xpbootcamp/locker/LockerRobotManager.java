@@ -29,8 +29,9 @@ public class LockerRobotManager extends LockerRobot {
 
     @Override
     public Bag getBag(LockerTicket lockerTicket) {
-        if (!managedRobots.isEmpty()) {
-            return managedRobots.get(0).getBag(lockerTicket);
+        Optional<LockerRobot> goalRobot = managedRobots.stream().filter(lockerRobot -> lockerRobot.hasBag(lockerTicket)).findAny();
+        if (goalRobot.isPresent()) {
+            return goalRobot.get().getBag(lockerTicket);
         }
         return getGoalLocker(lockerTicket).getBag(lockerTicket);
     }
