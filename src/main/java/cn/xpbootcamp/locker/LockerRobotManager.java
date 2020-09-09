@@ -25,4 +25,14 @@ public class LockerRobotManager extends LockerRobot {
         return getAvailableLockerInSequence(managedLockers).storeBag(bag);
 
     }
+
+
+    @Override
+    public Bag getBag(LockerTicket lockerTicket) {
+        if (!managedRobots.isEmpty()) {
+            return managedRobots.get(0).getBag(lockerTicket);
+        }
+        return getGoalLocker(lockerTicket).getBag(lockerTicket);
+    }
+
 }

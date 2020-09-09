@@ -17,9 +17,13 @@ public abstract class LockerRobot {
     protected abstract LockerTicket store(Bag bag);
 
     public Bag getBag(LockerTicket lockerTicket) {
+        return getGoalLocker(lockerTicket).getBag(lockerTicket);
+    }
+
+    protected Locker getGoalLocker(LockerTicket lockerTicket) {
         Optional<Locker> goalLocker = managedLockers.stream().filter(locker -> locker.hasBag(lockerTicket)).findAny();
         if (goalLocker.isPresent()) {
-            return goalLocker.get().getBag(lockerTicket);
+            return goalLocker.get();
         }
         throw new InvalidTicketException();
     }
