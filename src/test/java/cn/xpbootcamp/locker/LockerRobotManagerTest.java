@@ -221,4 +221,21 @@ public class LockerRobotManagerTest {
         lockerRobotManager.getBag(new LockerTicket());
 
     }
+
+
+    @Test
+    public void should_return_correct_bag_when_get_bag_given_manager_only_manage_robots_and_with_an_valid_ticket() {
+        Locker firstRobotLocker = new Locker(1);
+        Locker secondRobotLocker = new Locker(1);
+        LockerRobot firstRobot = new PrimaryLockerRobot(List.of(firstRobotLocker));
+        LockerRobot secondRobot = new SmartLockerRobot(List.of(secondRobotLocker));
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(List.of(), List.of(firstRobot, secondRobot));
+        Bag storedBag = new Bag();
+        LockerTicket lockerTicket = lockerRobotManager.store(storedBag);
+
+        Bag gotBag = lockerRobotManager.getBag(lockerTicket);
+
+        assertSame(storedBag, gotBag);
+
+    }
 }
