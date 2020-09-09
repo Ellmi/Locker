@@ -193,7 +193,6 @@ public class LockerRobotManagerTest {
 
     }
 
-
     @Test
     public void should_return_correct_bag_when_get_bag_given_robot_manage_both_locker_and_robot_and_bag_in_locker_with_an_valid_ticket() {
         Locker managerLocker = new Locker(1);
@@ -210,4 +209,16 @@ public class LockerRobotManagerTest {
 
     }
 
+
+    @Test(expected = InvalidTicketException.class)
+    public void should_throw_InvalidTicketException_when_get_bag_given_robot_manage_both_locker_and_robot_and_with_an_invalid_ticket() {
+        Locker managerLocker = new Locker(1);
+        Locker robotLocker = new Locker(1);
+        LockerRobot lockerRobot = new PrimaryLockerRobot(List.of(robotLocker));
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(List.of(managerLocker), List.of(lockerRobot));
+        lockerRobotManager.store(new Bag());
+
+        lockerRobotManager.getBag(new LockerTicket());
+
+    }
 }
