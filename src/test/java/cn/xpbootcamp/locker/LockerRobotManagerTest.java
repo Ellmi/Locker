@@ -238,4 +238,18 @@ public class LockerRobotManagerTest {
         assertSame(storedBag, gotBag);
 
     }
+
+
+    @Test(expected = InvalidTicketException.class)
+    public void should_throw_LockerIsFullException__when_get_bag_given_manager_only_manage_robots_and_with_an_invalid_ticket() {
+        Locker firstRobotLocker = new Locker(1);
+        Locker secondRobotLocker = new Locker(1);
+        LockerRobot firstRobot = new PrimaryLockerRobot(List.of(firstRobotLocker));
+        LockerRobot secondRobot = new SmartLockerRobot(List.of(secondRobotLocker));
+        LockerRobotManager lockerRobotManager = new LockerRobotManager(List.of(), List.of(firstRobot, secondRobot));
+        lockerRobotManager.store(new Bag());
+
+        lockerRobotManager.getBag(new LockerTicket());
+
+    }
 }
