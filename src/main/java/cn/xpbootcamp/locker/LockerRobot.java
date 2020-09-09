@@ -21,23 +21,13 @@ public abstract class LockerRobot {
     protected abstract LockerTicket store(Bag bag);
 
     public Bag getBag(LockerTicket lockerTicket) {
-        return getGoalLocker(lockerTicket).getBag(lockerTicket);
-    }
 
-    protected Locker getGoalLocker(LockerTicket lockerTicket) {
         Optional<Locker> goalLocker = managedLockers.stream().filter(locker -> locker.hasBag(lockerTicket)).findAny();
+
         if (goalLocker.isPresent()) {
-            return goalLocker.get();
+            return goalLocker.get().getBag(lockerTicket);
         }
         throw new InvalidTicketException();
     }
 
-    protected Locker getAvailableLockerInSequence(List<Locker> managedLockers) {
-        Optional<Locker> goalLocker = managedLockers.stream().filter(Locker::canStoreBag).findFirst();
-
-        if (goalLocker.isPresent()) {
-            return goalLocker.get();
-        }
-        throw new LockerIsFullException();
-    }
 }

@@ -3,15 +3,16 @@ package cn.xpbootcamp.locker;
 import java.util.List;
 import java.util.Optional;
 
-public class LockerRobotManager extends LockerRobot {
+public class LockerRobotManager {
+    private List<Locker> managedLockers;
     private List<LockerRobot> managedRobots;
 
     public LockerRobotManager(List<Locker> managedLockers, List<LockerRobot> managedRobots) {
-        super(managedLockers);
+        this.managedLockers = managedLockers;
         this.managedRobots = managedRobots;
     }
 
-    @Override
+
     public LockerTicket store(Bag bag) {
 
         Optional<LockerRobot> goalRobot = managedRobots.stream().filter(LockerRobot::canStoreBag).findFirst();
@@ -20,12 +21,16 @@ public class LockerRobotManager extends LockerRobot {
             return goalRobot.get().store(bag);
         }
 
-        return getAvailableLockerInSequence(managedLockers).storeBag(bag);
+        Optional<Locker> goalLocker = managedLockers.stream().filter(Locker::canStoreBag).findFirst();
 
+        if (goalLocker.isPresent()) {
+            return goalLocker.get().storeBag(bag);
+        }
+
+        throw new LockerIsFullException();
     }
 
 
-    @Override
     public Bag getBag(LockerTicket lockerTicket) {
 
         Optional<LockerRobot> goalRobot = managedRobots.stream().filter(lockerRobot -> lockerRobot.hasBag(lockerTicket)).findAny();
@@ -34,7 +39,12 @@ public class LockerRobotManager extends LockerRobot {
             return goalRobot.get().getBag(lockerTicket);
         }
 
-        return getGoalLocker(lockerTicket).getBag(lockerTicket);
+        Optional<Locker> goalLocker = managedLockers.stream().filter(locker -> locker.hasBag(lockerTicket)).findAny();
+
+        if (goalLocker.isPresent()) {
+            return goalLocker.get().getBag(lockerTicket);
+        }
+        throw new InvalidTicketException();
     }
 
 }
