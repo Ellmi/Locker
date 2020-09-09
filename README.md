@@ -110,3 +110,63 @@
 16. Given LockerRobotManager未管理locker,并且管理多个robot,例如2个,以及一张无效小票
     When LockerRobotManager取包
     Then 取包失败，提示票据无效
+
+### Locker Robot Director TASKING
+1. Given LockerRobotDirector管理1个LockerRobotManager,该LockerRobotManager管理1个Locker,该Locker可用容量和容量为：0，1
+   When LockerRobotDirector统计报表
+   Then 报表内容为：
+        M 0,1
+          L 0,1
+
+
+2. Given LockerRobotDirector管理1个LockerRobotManager,该LockerRobotManager管理2个Locker,Locker可用容量和容量分别为：1，2；0，3
+   When LockerRobotDirector统计报表
+   Then 报表内容为：
+        M 1,5
+          L 1,2
+          L 0,3
+
+
+3. Given LockerRobotDirector管理1个LockerRobotManager,该LockerRobotManager管理1个LockerRobot,该LockerRobot管理一个Locker,该Locker可用容量和容量为：1，2
+   When LockerRobotDirector统计报表
+   Then 报表内容为：
+        M 1,2
+          R 1,2
+            L 1,2
+
+
+4. Given LockerRobotDirector管理1个LockerRobotManager,该LockerRobotManager管理2个LockerRobot,2个LockerRobot各管理一个Locker,Locker可用容量和容量均为：1，2
+   When LockerRobotDirector统计报表
+   Then 报表内容为：
+        M 2,4
+          R 1,2
+            L 1,2
+          R 1,2
+            L 1,2
+
+
+5. Given LockerRobotDirector管理1个LockerRobotManager,该LockerRobotManager管理1个Locker和1个LockerRobot,该LockerRobot管理一个Locker,
+   该Locker可用容量和容量为：1，1，LockerRobotManager直接管理的Locker可用容量和容量为：0，2
+   When LockerRobotDirector统计报表
+   Then 报表内容为：
+        M 1,3
+          L 0,2
+          R 1,1
+            L 1,1
+
+
+6. Given LockerRobotDirector管理2个LockerRobotManager,每个LockerRobotManager各管理1个Locker，Locker的可用容量和容量分别为：0，1；0，2
+   When LockerRobotDirector统计报表
+   Then 报表内容为：
+        M 0,1
+          L 0,1
+        M 0,2
+          L 0,2
+
+
+7. Given LockerRobotDirector管理1个LockerRobotManager,该LockerRobotManager管理1个Locker,该Locker可用容量和容量为：0，1;
+   存在一个不被LockerRobotManager管理的Locker，可用容量和容量为：2，2;存在一个不被LockerRobotManager管理的Robot，该Robot管理一个Locker,可用容量和容量为：4，6;
+   When LockerRobotDirector统计报表
+   Then 报表内容为：
+        M 0,1
+          L 0,1
