@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class LockerRobotManager {
+public class LockerRobotManager implements Reportable {
     private List<Locker> managedLockers;
     private List<LockerRobot> managedRobots;
 
@@ -48,19 +48,19 @@ public class LockerRobotManager {
         throw new InvalidTicketException();
     }
 
-    String report() {
+    public String report() {
         return "M" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n" + managedLockers.stream().map(locker -> "   " + locker.report()).collect(Collectors.joining())
                 + managedRobots.stream().map(robot -> robot.report().lines().map(item -> "   " + item + "\n").collect(Collectors.joining())).collect(Collectors.joining());
     }
 
-    private Integer getAllCapacity() {
-        return managedLockers.stream().map(locker -> locker.getCapacity())
+    public Integer getAllCapacity() {
+        return managedLockers.stream().map(locker -> locker.getAllCapacity())
                 .reduce(0, Integer::sum) + managedRobots.stream().map(robot -> robot.getAllCapacity())
                 .reduce(0, Integer::sum);
     }
 
-    private Integer getFreeCapacity() {
-        return managedLockers.stream().map(locker -> locker.getAvailableCapability())
+    public Integer getFreeCapacity() {
+        return managedLockers.stream().map(locker -> locker.getFreeCapacity())
                 .reduce(0, Integer::sum) + managedRobots.stream().map(robot -> robot.getFreeCapacity())
                 .reduce(0, Integer::sum);
     }

@@ -10,7 +10,7 @@ public class SmartLockerRobot extends LockerRobot {
     }
 
     public LockerTicket store(Bag bag) {
-        return managedLockers.stream().sorted(Comparator.comparing(Locker::getAvailableCapability).reversed()).findFirst().get().storeBag(bag);
+        return managedLockers.stream().sorted(Comparator.comparing(Locker::getFreeCapacity).reversed()).findFirst().get().storeBag(bag);
     }
 
 }

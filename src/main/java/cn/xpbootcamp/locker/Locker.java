@@ -2,7 +2,7 @@ package cn.xpbootcamp.locker;
 
 import java.util.HashMap;
 
-class Locker {
+class Locker implements Reportable {
     private final int capacity;
     private HashMap<LockerTicket, Bag> ticketBagMap;
 
@@ -17,14 +17,6 @@ class Locker {
 
     boolean canStoreBag() {
         return ticketBagMap.size() < capacity;
-    }
-
-    int getAvailableCapability() {
-        return capacity - ticketBagMap.size();
-    }
-
-    int getCapacity() {
-        return capacity;
     }
 
     LockerTicket storeBag(Bag bag) {
@@ -48,7 +40,17 @@ class Locker {
         return bag;
     }
 
-    String report() {
-        return "L" + "  " + getAvailableCapability() + " " + capacity + "\n";
+    public String report() {
+        return "L" + "  " + getFreeCapacity() + " " + capacity + "\n";
+    }
+
+    @Override
+    public Integer getAllCapacity() {
+        return capacity;
+    }
+
+    @Override
+    public Integer getFreeCapacity() {
+        return capacity - ticketBagMap.size();
     }
 }

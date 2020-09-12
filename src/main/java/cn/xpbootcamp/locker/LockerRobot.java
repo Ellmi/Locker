@@ -3,7 +3,7 @@ package cn.xpbootcamp.locker;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class LockerRobot {
+public abstract class LockerRobot implements Reportable {
     protected List<Locker> managedLockers;
 
     protected LockerRobot(List<Locker> managedLockers) {
@@ -30,17 +30,17 @@ public abstract class LockerRobot {
         throw new InvalidTicketException();
     }
 
-    String report() {
+    public String report() {
         return "R" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n   " + managedLockers.get(0).report();
     }
 
-    Integer getAllCapacity() {
-        return managedLockers.stream().map(locker -> locker.getCapacity())
+    public Integer getAllCapacity() {
+        return managedLockers.stream().map(locker -> locker.getAllCapacity())
                 .reduce(0, Integer::sum);
     }
 
-    Integer getFreeCapacity() {
-        return managedLockers.stream().map(locker -> locker.getAvailableCapability())
+    public Integer getFreeCapacity() {
+        return managedLockers.stream().map(locker -> locker.getFreeCapacity())
                 .reduce(0, Integer::sum);
     }
 
