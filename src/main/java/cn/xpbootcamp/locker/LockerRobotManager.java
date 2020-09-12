@@ -50,7 +50,7 @@ public class LockerRobotManager {
 
     String report() {
         return "M" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n" + managedLockers.stream().map(locker -> "   " + locker.report()).collect(Collectors.joining())
-                + managedRobots.get(0).report().lines().map(item -> "   " + item + "\n").collect(Collectors.joining());
+                + managedRobots.stream().map(robot -> robot.report().lines().map(item -> "   " + item + "\n").collect(Collectors.joining())).collect(Collectors.joining());
     }
 
     private Integer getAllCapacity() {
