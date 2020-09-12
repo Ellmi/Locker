@@ -23,6 +23,10 @@ class Locker {
         return capacity - ticketBagMap.size();
     }
 
+    int getCapacity() {
+        return capacity;
+    }
+
     LockerTicket storeBag(Bag bag) {
 
         if (canStoreBag()) {
@@ -42,5 +46,9 @@ class Locker {
         if (bag == null) throw new InvalidTicketException();
 
         return bag;
+    }
+
+    String report() {
+        return "L" + "  " + getAvailableCapability() + " " + capacity + "\n";
     }
 }

@@ -47,4 +47,17 @@ public class LockerRobotManager {
         throw new InvalidTicketException();
     }
 
+    String report() {
+        return "M" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n   " + managedLockers.get(0).report();
+    }
+
+    private Integer getAllCapacity() {
+        return managedLockers.stream().map(locker -> locker.getCapacity())
+                .reduce(0, Integer::sum);
+    }
+
+    private Integer getFreeCapacity() {
+        return managedLockers.stream().map(locker -> locker.getAvailableCapability())
+                .reduce(0, Integer::sum);
+    }
 }
