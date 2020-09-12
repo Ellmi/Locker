@@ -49,16 +49,19 @@ public class LockerRobotManager {
     }
 
     String report() {
-        return "M" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n" + managedLockers.stream().map(locker -> "   " + locker.report()).collect(Collectors.joining());
+        return "M" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n" + managedLockers.stream().map(locker -> "   " + locker.report()).collect(Collectors.joining())
+                + managedRobots.get(0).report().lines().map(item -> "   " + item + "\n").collect(Collectors.joining());
     }
 
     private Integer getAllCapacity() {
         return managedLockers.stream().map(locker -> locker.getCapacity())
+                .reduce(0, Integer::sum) + managedRobots.stream().map(robot -> robot.getAllCapacity())
                 .reduce(0, Integer::sum);
     }
 
     private Integer getFreeCapacity() {
         return managedLockers.stream().map(locker -> locker.getAvailableCapability())
+                .reduce(0, Integer::sum) + managedRobots.stream().map(robot -> robot.getFreeCapacity())
                 .reduce(0, Integer::sum);
     }
 }

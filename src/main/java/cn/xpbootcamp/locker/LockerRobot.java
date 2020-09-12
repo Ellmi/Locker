@@ -30,4 +30,18 @@ public abstract class LockerRobot {
         throw new InvalidTicketException();
     }
 
+    String report() {
+        return "R" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n   " + managedLockers.get(0).report();
+    }
+
+    Integer getAllCapacity() {
+        return managedLockers.stream().map(locker -> locker.getCapacity())
+                .reduce(0, Integer::sum);
+    }
+
+    Integer getFreeCapacity() {
+        return managedLockers.stream().map(locker -> locker.getAvailableCapability())
+                .reduce(0, Integer::sum);
+    }
+
 }
