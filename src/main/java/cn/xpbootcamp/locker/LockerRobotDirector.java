@@ -1,6 +1,7 @@
 package cn.xpbootcamp.locker;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LockerRobotDirector {
     List<LockerRobotManager> managedLockerRobotManager;
@@ -10,7 +11,7 @@ public class LockerRobotDirector {
     }
 
     public String getReport() {
-        return managedLockerRobotManager.get(0).report();
+        return managedLockerRobotManager.stream().map(manager -> manager.report()).collect(Collectors.joining());
     }
 
 }

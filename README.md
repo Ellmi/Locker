@@ -155,13 +155,13 @@
             L 0,1
 
 
-6. Given LockerRobotDirector管理2个LockerRobotManager,每个LockerRobotManager各管理1个Locker，Locker的可用容量和容量分别为：0，1；0，2
+6. Given LockerRobotDirector管理2个LockerRobotManager,每个LockerRobotManager各管理1个Locker，Locker的可用容量和容量分别为：1，1；2，2
    When LockerRobotDirector统计报表
    Then 报表内容为：
-        M 0,1
-          L 0,1
-        M 0,2
-          L 0,2
+        M 1,1
+          L 1,1
+        M 2,2
+          L 2,2
 
 
 7. Given LockerRobotDirector管理1个LockerRobotManager,该LockerRobotManager管理1个Locker,该Locker可用容量和容量为：0，1;

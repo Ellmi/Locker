@@ -105,4 +105,24 @@ public class LockerRobotDirectorTest {
 
         assertEquals(expectedReport, actualReport);
     }
+
+
+    @Test
+    public void should_return_report_with_2_manager_and_their_locker_info_when_director_get_report_given_director_manage_2_manager_and_each_manager_manage_1__locker() {
+
+        Locker locker1 = new Locker(1);
+        Locker locker2 = new Locker(2);
+        LockerRobotManager lockerRobotManager1 = new LockerRobotManager(List.of(locker1), List.of());
+        LockerRobotManager lockerRobotManager2 = new LockerRobotManager(List.of(locker2), List.of());
+        LockerRobotDirector lockerRobotDirector = new LockerRobotDirector(List.of(lockerRobotManager1, lockerRobotManager2));
+
+        String actualReport = lockerRobotDirector.getReport();
+
+        String expectedReport = "M  1 1\n" +
+                                "   L  1 1\n" +
+                                "M  2 2\n" +
+                                "   L  2 2\n";
+
+        assertEquals(expectedReport, actualReport);
+    }
 }
