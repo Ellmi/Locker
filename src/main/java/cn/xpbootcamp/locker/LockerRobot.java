@@ -2,6 +2,7 @@ package cn.xpbootcamp.locker;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public abstract class LockerRobot implements Reportable {
     protected List<Locker> managedLockers;
@@ -31,7 +32,11 @@ public abstract class LockerRobot implements Reportable {
     }
 
     public String report() {
-        return "R" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n   " + managedLockers.get(0).report();
+        return "R" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n" + reportManagedLockers();
+    }
+
+    private String reportManagedLockers() {
+        return managedLockers.stream().map(locker -> "   " + locker.report()).collect(Collectors.joining());
     }
 
     public Integer getAllCapacity() {
