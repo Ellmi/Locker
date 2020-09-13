@@ -32,7 +32,7 @@ public abstract class LockerRobot implements Reportable {
     }
 
     public String report() {
-        return "R" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n" + reportManagedLockers();
+        return selfReporter.report("R", getFreeCapacity(), getAllCapacity()) + reportManagedLockers();
     }
 
     private String reportManagedLockers() {

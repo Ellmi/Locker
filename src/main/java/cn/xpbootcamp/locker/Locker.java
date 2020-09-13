@@ -41,15 +41,13 @@ class Locker implements Reportable {
     }
 
     public String report() {
-        return "L" + "  " + getFreeCapacity() + " " + capacity + "\n";
+        return selfReporter.report("L", getFreeCapacity(), capacity);
     }
 
-    @Override
     public Integer getAllCapacity() {
         return capacity;
     }
 
-    @Override
     public Integer getFreeCapacity() {
         return capacity - ticketBagMap.size();
     }

@@ -49,7 +49,7 @@ public class LockerRobotManager implements Reportable {
     }
 
     public String report() {
-        return "M" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n" + reportManagedLockers() + reportManagedRobots();
+        return selfReporter.report("M", getFreeCapacity(), getAllCapacity()) + reportManagedLockers() + reportManagedRobots();
     }
 
     private String reportManagedRobots() {
