@@ -49,8 +49,15 @@ public class LockerRobotManager implements Reportable {
     }
 
     public String report() {
-        return "M" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n" + managedLockers.stream().map(locker -> "   " + locker.report()).collect(Collectors.joining())
-                + managedRobots.stream().map(robot -> robot.report().lines().map(item -> "   " + item + "\n").collect(Collectors.joining())).collect(Collectors.joining());
+        return "M" + "  " + getFreeCapacity() + " " + getAllCapacity() + "\n" + reportManagedLockers() + reportManagedRobots();
+    }
+
+    private String reportManagedRobots() {
+        return managedRobots.stream().map(robot -> robot.report().lines().map(item -> "   " + item + "\n").collect(Collectors.joining())).collect(Collectors.joining());
+    }
+
+    private String reportManagedLockers() {
+        return managedLockers.stream().map(locker -> "   " + locker.report()).collect(Collectors.joining());
     }
 
     public Integer getAllCapacity() {
