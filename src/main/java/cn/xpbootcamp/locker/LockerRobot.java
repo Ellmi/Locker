@@ -32,11 +32,7 @@ public abstract class LockerRobot implements Reportable {
     }
 
     public String report() {
-        return selfReporter.report("R", getFreeCapacity(), getAllCapacity()) + reportManagedLockers();
-    }
-
-    private String reportManagedLockers() {
-        return managedLockers.stream().map(locker -> "   " + locker.report()).collect(Collectors.joining());
+        return selfReporter.report("R", getFreeCapacity(), getAllCapacity()) + managedLockersReporter.report(managedLockers);
     }
 
     public Integer getAllCapacity() {
